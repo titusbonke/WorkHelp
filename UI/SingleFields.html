@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathya UI</title>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+
+        }
+
+        .OuterMenu {
+            margin-top: 10px;
+        }
+
+        .card {
+            /* width: 30%; */
+            height: 100%;
+            background-color: rgb(228, 228, 228);
+
+        }
+
+        .row {
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .alert {
+            width: fit-content;
+            float: right;
+            
+
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 10px gray;
+
+        }
+        .ButtonBack{
+            margin-top: 5px;
+        }
+    </style>
+
+
+    <div class="container-fluid">
+        <a href="./Index.html">
+        <button type="button" class="btn btn-primary ButtonBack" >Go Back</button></a>
+        <div class="OuterMenu">
+
+            <textarea class="form-control form-input" name="TextAreaInput" id="TextAreaInput" rows="5"
+                placeholder=""></textarea>
+
+            <div class="row">
+                <div class="col" onclick="TextBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">TextBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="DropDown()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">DropDown</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="CheckBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">CheckBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="DateBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">DateBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="RadioBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">RadioBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col" onclick="NumberBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">NumberBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="MobileBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">MobileBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="DoubleDateBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">DoubleDateBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="FileBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">FileBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="PasswordBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">PasswordBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col" onclick="IpBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">IpBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="MultiLIneBox()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">MultiLIneBox</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="Button()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Button</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ManageField()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">ManageField</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ManageFooter()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">ManageFooter</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaView" onfocus="Copy(this)"
+                        id="TextAreaView" placeholder="Paste In View"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaController" onfocus="Copy(this)"
+                        id="TextAreaController" placeholder="Paste In Controller"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaModel" onfocus="Copy(this)"
+                        id="TextAreaModel" placeholder="Paste In Model"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <h4>Model Paste</h4>
+                <div class="col">
+                    <textarea class="form-control form-input" name="ModelPaste" id="ModelPaste"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <textarea id="linkToCopy" value="TEXT TO COPY" style="position: absolute; z-index: -999; opacity: 0;"></textarea>
+
+    <script>
+
+        $(document).on("paste", function (event) {
+            var MainData;
+            if (event.target.id == "ModelPaste") {
+                setTimeout(function () {
+                    console.log(event.target.value);
+                    MainData = event.target.value;
+                    MainData = MainData.split(/\r?\n/);
+
+                    MainData.forEach(function (item, index, arr) {
+                        var Data = item.split("string")[1] ?? item;
+                        Data = Data.split("int")[1] ?? Data;
+                        Data = Data.split("bool")[1] ?? Data;
+                        Data = Data.split("DateTime")[1] ?? Data;
+                        Data = Data.split("Guid")[1] ?? Data;
+                        Data = Data.split(">")[1] ?? Data;
+                        Data = Data.split("{")[0] ?? Data;
+                        Data = Data.split(";")[0] ?? Data;
+                        Data = Data.trim();
+                        Data += "\n";
+
+                        arr[index] = Data;
+                    });
+                    console.log(MainData);
+                    $("#TextAreaInput").val(MainData.join(" "));
+                }, 300);
+
+            }
+        });
+
+
+
+        function Copy(e) {
+            // var Content= e.target.value;
+            if (e.value != "") {
+                e.select();
+                document.execCommand("copy");
+                var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+<strong>`+ e.id + ` Box Coppied.</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>`;
+
+                $('body').append(alert);
+                $(".alert").delay(3000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+
+            }
+        }
+    </script>
+
+
+    <script>
+        function TextBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.x, "x", "x", false, true);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+            //             document.execCommand("copy");
+            //             var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+            // <strong>TextBox View Coppied Successfully.</strong>
+            // <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            // </div>`;
+
+            //             $('body').append(alert);
+            //             $(".alert").delay(3000).slideUp(200, function () {
+            //                 $(this).alert('close');
+            //             });
+
+
+        }
+
+        function DropDown(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += ` ListBox20.SimpleListBox x = new ListBox20.SimpleListBox
+    {
+        ControlId = "x",
+        IsPostBack = false,
+        Label = "x",
+        SelectedValue = Model.x,
+        ValueList = Model.x,
+        Size = ListBox20.Size.S5,
+        IsRequired = true,
+        PlaceHolder="x",
+    };
+    htmlstr += ListBox20.GetHtml(x);\n`;
+
+                ControllerContent += ` val = new List<string>();
+            model.BranchList = val;\n`;
+
+                ModelContent += `public string x { get; set; }
+            public List<string> xList { get; set; }\n`;
+
+            } else {
+
+                variables.forEach(Item => {
+                    ViewContent += ` ListBox20.SimpleListBox ` + Item.replace(/\s/g, "") + ` = new ListBox20.SimpleListBox
+    {
+        ControlId = "` + Item.replace(/\s/g, "") + `",
+        IsPostBack = false,
+        Label = "` + Item + `",
+        SelectedValue = Model.` + Item.replace(/\s/g, "") + `,
+        ValueList = Model.` + Item.replace(/\s/g, "") + `List,
+        Size = ListBox20.Size.S5,
+        IsRequired = true,
+        PlaceHolder="` + Item.replace(/\s/g, "") + `",
+    };
+    htmlstr += ListBox20.GetHtml(` + Item.replace(/\s/g, "") + `);\n`;
+
+                    ControllerContent += ` val = new List<string>();
+
+            model.` + Item.replace(/\s/g, "") + `List = val;\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }
+            public List<string> ` + Item.replace(/\s/g, "") + `List { get; set; }\n`;
+                });
+            }
+
+
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function RadioBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += CheckBox20.GetHtml("x", Model.x, "x", false);\n`;
+                ModelContent += `public bool x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += CheckBox20.GetHtml("` + Item.replace(/\s/g, "") + `", Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", false);\n`;
+                    ModelContent += `public bool ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function DateBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `Date20.Properties WarrantyDate = new Date20.Properties
+    {
+        ControlId = "x",
+        Label = "x",
+        DateType = Date20.DateType.Date,
+        MinDate = DateTime.Today.ToString(),
+        Size = Date20.Size.S5,
+        ReturnValue = Model.x,
+    };
+    htmlstr += Date20.GetHtml(WarrantyDate);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `Date20.Properties WarrantyDate = new Date20.Properties
+    {
+        ControlId = "` + Item.replace(/\s/g, "") + `",
+        Label = "` + Item + `",
+        DateType = Date20.DateType.Date,
+        MinDate = DateTime.Today.ToString(),
+        Size = Date20.Size.S5,
+        ReturnValue = Model.` + Item.replace(/\s/g, "") + `,
+    };
+    htmlstr += Date20.GetHtml(WarrantyDate);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function CheckBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += RadioBox20.GetHtml("x", "x", Model.x, new List<string> { "y", "z" }, false, false);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += RadioBox20.GetHtml("` + Item.replace(/\s/g, "") + `", "` + Item + `", Model.` + Item.replace(/\s/g, "") + `, new List<string> { "y", "z" }, false, false);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+    </script>
+
+
+    <script>
+        function NumberBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.Numbers, Model.x, "x", "x", false, true);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.Numbers, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function MobileBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.Mobile, Model.x, "x", "x", false, true);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.Mobile, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function FileBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.File, "", "x", "x", false, true);\n`;
+                ModelContent += `public HttpPostedFileBase x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.File, "", "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public HttpPostedFileBase ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function PasswordBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.Password, Model.x, "x", "x", false, true);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.Password, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function DoubleDateBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `Date20.Properties x = new Date20.Properties()
+    {
+        ControlId = "x",
+        DateType = Date20.DateType.DateRange,
+        ReturnValue = Model.x,
+        Label = "Date",
+        Size = Date20.Size.S5,
+        ShowRangeList = true,
+
+    };
+    HtmlStr += Date20.GetHtml(x);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `Date20.Properties ` + Item.replace(/\s/g, "") + ` = new Date20.Properties()
+    {
+        ControlId = "` + Item.replace(/\s/g, "") + `",
+        DateType = Date20.DateType.DateRange,
+        ReturnValue = Model.` + Item.replace(/\s/g, "") + `,
+        Label = "Date",
+        Size = Date20.Size.S5,
+        ShowRangeList = true,
+
+    };
+    HtmlStr += Date20.GetHtml(` + Item.replace(/\s/g, "") + `);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+
+
+    </script>
+
+<script>
+    function IpBox(e) {
+        var variables = $("#TextAreaInput").val().split(/\r?\n/);
+        variables.forEach(function (item, index, arr) {
+            arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+        });
+        // variables=variables.split()
+        console.log(variables);
+        var ViewContent = "";
+        var ControllerContent = "";
+        var ModelContent = "";
+        if (variables.length == 1 && variables[0] == "") {
+            ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.IP, Model.x, "x", "x", false, true);\n`;
+            ModelContent += `public string x { get; set; }\n`;
+        } else {
+            variables.forEach(Item => {
+                ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.IP, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+            });
+        }
+        $('#TextAreaView').val(ViewContent);
+        $('#TextAreaModel').val(ModelContent);
+
+        $('#TextAreaView').select();
+
+    }
+
+    function MultiLIneBox(e) {
+        var variables = $("#TextAreaInput").val().split(/\r?\n/);
+        variables.forEach(function (item, index, arr) {
+            arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+        });
+        // variables=variables.split()
+        console.log(variables);
+        var ViewContent = "";
+        var ControllerContent = "";
+        var ModelContent = "";
+        if (variables.length == 1 && variables[0] == "") {
+            ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.MultiLine, Model.x, "x", "x", false, true,4);\n`;
+            ModelContent += `public string x { get; set; }\n`;
+        } else {
+            variables.forEach(Item => {
+                ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.MultiLine, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true,4);\n`;
+                ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+            });
+        }
+        $('#TextAreaView').val(ViewContent);
+        $('#TextAreaModel').val(ModelContent);
+
+        $('#TextAreaView').select();
+
+    }
+
+    function Button(e) {
+        var variables = $("#TextAreaInput").val().split(/\r?\n/);
+        variables.forEach(function (item, index, arr) {
+            arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+        });
+        // variables=variables.split()
+        console.log(variables);
+        var ViewContent = "";
+        var ControllerContent = "";
+        var ModelContent = "";
+        if (variables.length == 1 && variables[0] == "") {
+            ViewContent += `htmlstr1 += Button20.GetHtml("BtnSubmit",x, "Update", "Box()", Button20.ButtonType.Button);\n`;
+            ModelContent += `public string x { get; set; }\n`;
+        } else {
+            variables.forEach(Item => {
+                ViewContent += `htmlstr1 += Button20.GetHtml("BtnSubmit", "` + Item.replace(/\s/g, "") + `", "Update", "Box()", Button20.ButtonType.Button);\n`;
+                ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+            });
+        }
+        $('#TextAreaView').val(ViewContent);
+        $('#TextAreaModel').val(ModelContent);
+
+        $('#TextAreaView').select();
+
+    }
+
+    function ManageField(e) {
+        var variables = $("#TextAreaInput").val().split(/\r?\n/);
+        variables.forEach(function (item, index, arr) {
+            arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+        });
+        // variables=variables.split()
+        console.log(variables);
+        var ViewContent = "";
+        var ControllerContent = "";
+        var ModelContent = "";
+        if (variables.length == 1 && variables[0] == "") {
+            ViewContent += ` column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.General, Name = "x", Field = "x", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);\n`;
+            ModelContent += `prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.x };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells);\n`;
+        } else {
+            variables.forEach(Item => {
+                ViewContent += ` column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.General, Name = "` + Item + `", Field = "` + Item.replace(/\s/g, "") + `", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);\n`;
+                ModelContent += `prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.` + Item.replace(/\s/g, "") + ` };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells);\n`;
+            });
+        }
+        $('#TextAreaView').val(ViewContent);
+        $('#TextAreaModel').val(ModelContent);
+        
+        $('#TextAreaView').select();
+
+    }
+
+    function ManageFooter(e) {
+        var variables = $("#TextAreaInput").val().split(/\r?\n/);
+        variables.forEach(function (item, index, arr) {
+            arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+        });
+        // variables=variables.split()
+        console.log(variables);
+        var ViewContent = "";
+        var ControllerContent = "";
+        var ModelContent = "";
+        if (variables.length == 1 && variables[0] == "") {
+            ViewContent += `string[] col = { "3", "4" };
+                        string[] Val = { "Total", Convert.ToDouble(ReadPLRspn.DocTotal).ToString() };
+                        TableReport20.FooterCollection ft = new TableReport20.FooterCollection
+                        {
+                            col = col,
+                            value = Val,
+
+                        };\n`;
+            
+        } else {
+            variables.forEach(Item => {
+                ViewContent += `string[] col = { "3", "4" };
+                        string[] Val = { "Total", Convert.ToDouble(ReadPLRspn.DocTotal).ToString() };
+                        TableReport20.FooterCollection ft = new TableReport20.FooterCollection
+                        {
+                            col = col,
+                            value = Val,
+
+                        };\n`;
+                
+            });
+        }
+        $('#TextAreaView').val(ViewContent);
+       
+        
+        $('#TextAreaView').select();
+
+    }
+  
+
+</script>
+
+</body>
+
+</html>

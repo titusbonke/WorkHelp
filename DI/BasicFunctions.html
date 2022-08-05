@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathya DI</title>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+
+        }
+
+        .OuterMenu {
+            margin-top: 10px;
+        }
+
+        .card {
+            /* width: 30%; */
+            height: 100%;
+            background-color: rgb(228, 228, 228);
+
+        }
+
+        .row {
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .alert {
+            width: fit-content;
+            float: right;
+
+
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 10px gray;
+
+        }
+
+        .ButtonBack {
+            margin-top: 5px;
+        }
+    </style>
+
+
+    <div class="container-fluid">
+        <div>
+            <div class="row">
+                <div class="col">
+                    <a href="./Index.html">
+                        <button type="button" class="btn btn-primary">Go Back</button></a>
+                </div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <input type="text" id="EName" name="EName" placeholder="Enter Entity name"
+                        class="form-control input">
+                </div>
+            </div>
+
+            <div class="row">
+                <textarea class="form-control form-input" name="TextAreaInput" id="TextAreaInput" rows="5"
+                    placeholder="paste function name here :"></textarea>
+            </div>
+            <div class="row">
+                <textarea class="form-control form-input" name="TableModelInput" id="TableModelInput" rows="5"
+                    placeholder="paste table model name here :"></textarea>
+            </div>
+            <div class="row">
+                <div class="col" onclick="EntryFunction()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Entry Function</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ReadListFunction()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Read List Function</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ReadFunction()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Read Function</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="UpdateFunction()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Update Function</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="MasterFunction()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Master Function</h5>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaFunction" onfocus="Copy(this)"
+                        id="TextAreaFunction" placeholder="Paste In Data"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaRqst" onfocus="Copy(this)" id="TextAreaRqst"
+                        placeholder="Paste In Rqst"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaRspn" onfocus="Copy(this)" id="TextAreaRspn"
+                        placeholder="Paste In Rspn"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <h4>Model Paste</h4>
+                <div class="col">
+                    <textarea class="form-control form-input" name="ModelPaste" id="ModelPaste"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <textarea id="linkToCopy" value="TEXT TO COPY" style="position: absolute; z-index: -999; opacity: 0;"></textarea>
+
+    <script>
+
+        $(function () {
+            $("#EName").val(localStorage.getItem('EName'));
+        });
+        //for converting model to names
+        $(document).on("paste", function (event) {
+            var MainData;
+            if (event.target.id == "ModelPaste") {
+                setTimeout(function () {
+                    console.log(event.target.value);
+                    MainData = event.target.value;
+                    MainData = MainData.split(/\r?\n/);
+
+                    MainData.forEach(function (item, index, arr) {
+                        var Data = item.split("string")[1] ?? item;
+                        Data = Data.split("int")[1] ?? Data;
+                        Data = Data.split("bool")[1] ?? Data;
+                        Data = Data.split("DateTime")[1] ?? Data;
+                        Data = Data.split("Guid")[1] ?? Data;
+                        Data = Data.split(">")[1] ?? Data;
+                        Data = Data.split("{")[0] ?? Data;
+                        Data = Data.split(";")[0] ?? Data;
+                        Data = Data.trim();
+                        Data += "\n";
+
+                        arr[index] = Data;
+                    });
+                    console.log(MainData);
+                    $("#TextAreaInput").val(MainData.join(" "));
+                }, 300);
+
+            }
+        });
+
+
+        //for copying form textareas on focus
+        function Copy(e) {
+            // var Content= e.target.value;
+            if (e.value != "") {
+                e.select();
+                document.execCommand("copy");
+                var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+<strong>`+ e.id + ` Box Coppied.</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>`;
+
+                $('body').append(alert);
+                $(".alert").delay(3000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+
+            }
+        }
+    </script>
+
+
+    <script>
+        var variables = [];
+        var ModelArr = [];
+        var ProcessedArr = [];
+        var TrimedArr = [];
+        var FunctionContent = "";
+        var RqstContent = "";
+        var RspnContent = "";
+        var TableName = "table_name";
+        var EName = "";
+
+        function ReadModalArray() {
+            ModelArr = [];
+            ProcessedArr = [];
+            TrimedArr = [];
+            EName = $("#EName").val();
+            localStorage.setItem('EName', EName);
+            if ($("#TableModelInput").val() != "") {
+                var TableModel = $("#TableModelInput").val().split(/\r?\n/);
+                var TableModel1 = $("#TableModelInput").val().split(/\r?\n/);
+                var TableModel2 = $("#TableModelInput").val().split(/\r?\n/);
+                TableModel.forEach(function (item, index, arr) {
+                    arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                    var a = arr[index];
+                    ModelArr.push(a);
+                });
+
+                if (ModelArr[0][2] == "class") {
+                    TableName = ModelArr[0][3];
+                    ModelArr.shift();
+                    ModelArr.shift();
+                    ModelArr.pop();
+
+                    TableModel1.shift();
+                    TableModel1.shift();
+                    TableModel1.pop();
+
+                    TableModel2.shift();
+                    TableModel2.shift();
+                    TableModel2.pop();
+                }
+
+                TableModel1.forEach(function (item, index, arr) {
+                    arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                    arr[index][2] = arr[index][2].replace(/_/g, " ").toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ');
+                    a = arr[index];
+                    ProcessedArr.push(a);
+                });
+
+                TableModel2.forEach(function (item, index, arr) {
+                    arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                    arr[index][2] = arr[index][2].replace(/_/g, " ").toLowerCase().split(' ').map(s => s.charAt(0).toUpperCase() + s.substring(1)).join(' ').replace(/\s/g, "");
+                    a = arr[index];
+                    TrimedArr.push(a);
+                });
+            }
+
+        }
+
+        function ReadVariables() {
+            variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+
+        }
+
+        function EntryFunction(e) {
+            FunctionContent = "";
+            RqstContent = "";
+            RspnContent = "";
+
+            // variables=variables.split()
+            ReadVariables();
+            console.log(variables);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+            console.log(TrimedArr);
+
+            var RqstToInfo = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] != "int") {
+                    RqstToInfo += item[2] + " = rqst." + item[2] + ",\n";
+                }
+            });
+            console.log(RqstToInfo);
+
+            var InfoToDb = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] != "int") {
+                    InfoToDb += ModelArr[index][2] + " = rqst." + item[2] + ",\n";
+                }
+            });
+            console.log(InfoToDb);
+
+            var ValidateContent = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    ValidateContent += `if (rqst.${item[2]} == "") return "${ProcessedArr[index][2]} should not be blank";\n`;
+                } else if (item[1] == "Nullable<int>") {
+                    ValidateContent += `if (rqst.${item[2]} == 0) return "${ProcessedArr[index][2]} should not be blank";\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    ValidateContent += `if (rqst.${item[2]} < DateTime.Now) return "${ProcessedArr[index][2]} should not be in the past Date";\n`;
+                }
+            });
+            console.log(ValidateContent);
+
+            var RqstFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RqstFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>") {
+                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RqstFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RqstFields);
+
+            var RspnFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RspnFields += `public string ${item[2]} { get; set; }\n`;
+                } else if (item[1] == "Nullable<int>") {
+                    RspnFields += `public int ${item[2]} { get; set; }\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RspnFields);
+
+
+
+            if (variables.length == 1 && variables[0] != "") {
+                variables.forEach(Item => {
+                    var item = Item.replace(/\s/g, "");
+                    var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                    FunctionContent += `        public static Create${item}Rspn Create${item}(Create${item}Rqst rqst)
+        {
+            try
+            {
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "create_${faccess}");
+                if (rspn1.Response != "OK") return new Create${item}Rspn { Response = rspn1.Response };
+                var Info = new ${item}()
+                {
+                    ${RqstToInfo}
+                };
+                var rspn = Create${item}(ref Info);
+                return new Create${item}Rspn { Response = rspn };
+            }
+            catch (Exception ex)
+            {
+                return new Create${item}Rspn { Response = "catch:"+ex.Message };
+            }
+        }
+
+        private static string Create${item}(ref ${item} rqst)
+        {
+            try
+            {
+                var rspn1 = Validate${item}(ref rqst);
+                if (rspn1 != "OK") return rspn1;
+
+                using (var ctx = new Entity.${EName}())
+                {
+                    string GroupName = rqst.GroupName;
+                    int UserId = rqst.UserId;
+                    var grp = ctx.${TableName}.Where(c => c.group_name == GroupName && c.user_id == UserId).FirstOrDefault();
+                    if (grp != null) return "${Item} already exist";
+                    var Info = new Entity.${TableName}()
+                    {
+                        ${InfoToDb}
+                    };
+                    ctx.${TableName}.Add(Info);
+                    ctx.SaveChanges();
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "catch:"+ex.Message;
+            }
+        }
+
+
+        private static string Validate${item}(ref ${item} rqst)
+        {
+            try
+            {
+                ${ValidateContent}
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "catch:"+ex.Message;
+            }
+        }`;
+                    RqstContent += `    public class Create${item}Rqst
+    {
+        public string LoginToken { get; set; } = "";
+        ${RqstFields}
+    }
+`;
+                    RspnContent += `    public class Create${item}Rspn
+    {
+        public string Response = "";
+    }
+    public class ${item}
+    {
+        ${RspnFields}
+    }
+`;
+                });
+            }
+            $('#TextAreaFunction').val(FunctionContent);
+            $('#TextAreaRqst').val(RqstContent);
+            $('#TextAreaRspn').val(RspnContent);
+            // console.log(FunctionContent);
+            $('#TextAreaFunction').select();
+
+        }
+
+        function ReadListFunction(e) {
+            FunctionContent = "";
+            RqstContent = "";
+            RspnContent = "";
+
+            ReadVariables();
+            console.log(variables);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+            console.log(TrimedArr);
+
+
+            var DbtoClass = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    DbtoClass += `${item[2]} = doc.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    DbtoClass += `${item[2]} = (int)doc.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    DbtoClass += `${item[2]} = (DateTime)doc.${ModelArr[index][2]},\n`;
+                }
+            });
+            console.log(DbtoClass);
+
+            var Filters = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    Filters += `if (rqst.${item[2]} !="") docs = docs.Where(c => c.${item[2]}.Contains(rqst.${item[2]}));\n`;
+                } else if (item[1] == "Nullable<int>") {
+                    Filters += `if (rqst.${item[2]} != 0) docs = docs.Where(c => c.${item[2]} == rqst.${item[2]});\n`;
+                }
+            });
+            console.log(Filters);
+
+            var RqstFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RqstFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RqstFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RqstFields);
+
+            var RspnFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RspnFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RspnFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RspnFields);
+
+            var sort= [];
+            if (TrimedArr.length != 0) {
+                sort = TrimedArr.filter(a => a[1] == "string" || a[1] == "DateTime")[0][2];
+                console.log(sort);
+            }
+
+
+            if (variables.length == 1 && variables[0] != "") {
+                variables.forEach(Item => {
+                    var item = Item.replace(/\s/g, "");
+                    var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                    FunctionContent += `        public static Read${item}ListRspn Read${item}List(Read${item}ListRqst rqst)
+        {
+            try
+            {
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read_${faccess}_List");
+                if (rspn1.Response != "OK") return new Read${item}ListRspn { Response = rspn1.Response };
+
+                var rspn = new Read${item}ListRspn();
+                using (var ctx = new Entity.${EName}())
+                {
+                    var docs = from doc in ctx.${TableName}.Where(c => c.is_deleted == 0 &&
+                               c.is_active == rqst.IsActive &&  c.account_id==rspn1.AccountId )
+                               select new ${item}List
+                               {
+                                   ${DbtoClass}
+                               };
+
+                    ${Filters}
+                    if (rqst.FromDate != "" && rqst.ToDate != "")
+                    {
+                        DateTime sDate = DateTime.Parse(rqst.FromDate);
+                        DateTime eDate = DateTime.Parse(rqst.ToDate + " 23:59");
+                        docs = docs.Where(c => c.CreatedDate >= sDate && c.CreatedDate <= eDate);
+                    }
+
+                    int TotalRows = 0;
+                    int RowsPerPage = 10;
+                    int startRow = 1;
+                    if (rqst.Sort == "") rqst.Sort = "${sort}";
+                    QueryableExtensions.OrderType order = QueryableExtensions.OrderType.Asc;
+                    if (rqst.Order.Contains("desc")) order = QueryableExtensions.OrderType.Desc;
+                    docs = docs.OrderByDynamic(rqst.Sort, order);
+
+                    TotalRows = docs.Count();
+                    rspn.PageCount = Entity4.GetPageCount(TotalRows, rqst.RowsPerPage);
+                    rspn.TotalRows = TotalRows;
+
+                    RowsPerPage = rqst.RowsPerPage;
+                    startRow = rqst.RowsPerPage * (rqst.StartPage - 1);
+                    var result = docs.Skip(startRow).Take(RowsPerPage);
+                    rspn.${item}List = result.ToList();
+                    rspn.PageCount = Entity4.GetPageCount(TotalRows, rqst.RowsPerPage);
+                    rspn.TotalRows = TotalRows;
+
+                    rspn.Response = "OK";
+                    return rspn;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Read${item}ListRspn { Response = "catch:"+ex.Message };
+            }
+        }`;
+                    RqstContent += `    public class Read${item}ListRqst : ReportRqst
+    {
+        public string FromDate { get; set; } = "";
+        public string ToDate { get; set; } = "";
+        ${RqstFields}
+    }
+`;
+                    RspnContent += `   public class Read${item}ListRspn:ReportRspn
+    {
+        public List<${item}List> ${item}List = new List<${item}List>();
+    }
+    public class ${item}List
+    {
+        ${RspnFields}
+    }
+
+`;
+                });
+            }
+            $('#TextAreaFunction').val(FunctionContent);
+            $('#TextAreaRqst').val(RqstContent);
+            $('#TextAreaRspn').val(RspnContent);
+
+            $('#TextAreaFunction').select();
+
+        }
+
+        function ReadFunction(e) {
+            FunctionContent = "";
+            RqstContent = "";
+            RspnContent = "";
+
+            ReadVariables();
+            console.log(variables);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+            console.log(TrimedArr);
+
+            var DbtoClass = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    DbtoClass += `${item[2]} = dls.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    DbtoClass += `${item[2]} = (int)dls.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    DbtoClass += `${item[2]} = (DateTime)dls.${ModelArr[index][2]},\n`;
+                }
+            });
+            console.log(DbtoClass);
+
+
+            var RqstFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "int") {
+                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                }
+            });
+            console.log(RqstFields);
+
+            var RspnFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RspnFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RspnFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RspnFields);
+
+
+
+            if (variables.length == 1 && variables[0] != "") {
+                variables.forEach(Item => {
+                    var item = Item.replace(/\s/g, "");
+                    var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                    FunctionContent += `        public static Read${item}Rspn Read${item}(Read${item}Rqst rqst)
+        {
+            try
+            {
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read${faccess}");
+                if (rspn1.Response != "OK") return new Read${item}Rspn { Response = rspn1.Response };
+                var rspn = new Read${item}Rspn();
+                using (var ctx = new Entity.${EName}())
+                {
+                    var dls = ctx.${TableName}.Where(c => c.group_guid == rqst.GroupGuid && c.account_id == rspn1.AccountId).FirstOrDefault();
+                    if (dls == null) return new Read${item}Rspn { Response = "Invalid ${Item} Details" };
+                    var Info = new ${item}()
+                    {
+                        ${DbtoClass}
+                    };
+                    rspn.${item} = Info;
+                    rspn.Response = "OK";
+                }
+                return rspn;
+            }
+            catch (Exception ex)
+            {
+                return new Read${item}Rspn { Response = "catch:"+ex.Message };
+            }
+        }`;
+                    RqstContent += `    public class Read${item}Rqst
+    {
+        public string LoginToken { get; set; } = "";
+        ${RqstFields}
+    }
+`;
+                    RspnContent += `      public class Read${item}Rspn
+    {
+        public string Response = "";
+        public ${item} ${item} = new ${item}();
+    }
+                  public class ${item}
+    {
+        ${RspnFields}
+    }
+`;
+                });
+            }
+            $('#TextAreaFunction').val(FunctionContent);
+            $('#TextAreaRqst').val(RqstContent);
+            $('#TextAreaRspn').val(RspnContent);
+
+            $('#TextAreaFunction').select();
+
+        }
+
+        function UpdateFunction(e) {
+            FunctionContent = "";
+            RqstContent = "";
+            RspnContent = "";
+
+            ReadVariables();
+            console.log(variables);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+            console.log(TrimedArr);
+
+
+            var RqstToInfo = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] != "int") {
+                RqstToInfo += item[2] + " = rqst." + item[2] + ",\n";
+                }
+            });
+            console.log(RqstToInfo);
+
+            var InfoToDb = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] != "int") {
+                InfoToDb += "dls." + ModelArr[index][2] + " = rqst." + item[2] + ";\n";
+                }
+            });
+            console.log(InfoToDb);
+
+
+            var RqstFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RqstFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>") {
+                    RqstFields += `public DateTime ${item[2]} { get; set; }\n`;
+                }
+            });
+            console.log(RqstFields);
+
+
+
+            if (variables.length == 1 && variables[0] != "") {
+                variables.forEach(Item => {
+                    var item = Item.replace(/\s/g, "");
+                    var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                    FunctionContent += `        public static Update${item}Rspn Update${item}(Update${item}Rqst rqst)
+        {
+            try
+            {
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "update_${faccess}");
+                if (rspn1.Response != "OK") return new Update${item}Rspn { Response = rspn1.Response };
+                var Info = new ${item}()
+                {
+                    ${RqstToInfo}
+                };
+                var rspn = Update${item}(Info);
+                return new Update${item}Rspn { Response = rspn };
+            }
+            catch (Exception ex)
+            {
+                return new Update${item}Rspn { Response = "catch:"+ex.Message };
+            }
+        }
+
+        private static string Update${item}(${item} rqst)
+        {
+            try
+            {
+                var rspn1 = Validate${item}(ref rqst);
+                if (rspn1 != "OK") return rspn1;
+
+                using (var ctx = new Entity.${EName}())
+                {
+                    string GroupName = rqst.GroupName;
+                    int UserId = rqst.UserId;
+                    var dls = ctx.${TableName}.Where(c => c.group_guid == rqst.GroupGuid && c.user_id == UserId).FirstOrDefault();
+                    if (dls == null) return "Invalid ${Item} Details";
+                    if (dls.group_name != rqst.GroupName)
+                    {
+                        var vgrp = ctx.${TableName}.Where(c => c.group_name == rqst.GroupName && c.user_id == UserId).FirstOrDefault();
+                        if (vgrp != null) return "${Item} already exist";
+                    }
+
+                    ${InfoToDb}
+                    ctx.SaveChanges();
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return "catch:"+ex.Message;
+            }
+        }
+`;
+                    RqstContent += `    public class Update${item}Rqst
+    {
+        public string LoginToken { get; set; } = "";
+        ${RqstFields}
+    }
+`;
+                    RspnContent += `   public class Update${item}Rspn
+    {
+        public string Response = "";
+    }
+`;
+                });
+            }
+            $('#TextAreaFunction').val(FunctionContent);
+            $('#TextAreaRqst').val(RqstContent);
+            $('#TextAreaRspn').val(RspnContent);
+
+            $('#TextAreaFunction').select();
+
+        }
+
+        function MasterFunction(e) {
+            FunctionContent = "";
+            RqstContent = "";
+            RspnContent = "";
+
+            ReadVariables();
+            console.log(variables);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+            console.log(TrimedArr);
+
+            var DbtoClass = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    DbtoClass += `${item[2]} = doc.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    DbtoClass += `${item[2]} = (int)doc.${ModelArr[index][2]},\n`;
+                }
+            });
+            console.log(DbtoClass);
+
+            var Filters = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    Filters += `if (rqst.${item[2]} != 0) docs = docs.Where(c => c.${item[2]} == rqst.${item[2]});\n`;
+                }
+            });
+            console.log(Filters);
+
+            var RqstFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                }
+            });
+            console.log(RqstFields);
+
+            var RspnFields = "";
+            TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string") {
+                    RspnFields += `public string ${item[2]} { get; set; } = "";\n`;
+                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
+                    RspnFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                }
+            });
+            console.log(RspnFields);
+
+
+
+
+            if (variables.length == 1 && variables[0] != "") {
+                variables.forEach(Item => {
+                    var item = Item.replace(/\s/g, "");
+                    var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                    FunctionContent += `        public static Read${item}MasterRspn Read${item}Master(Read${item}MasterRqst rqst)
+        {
+            try
+            {
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read_${faccess}_master");
+                if (rspn1.Response != "OK") return new Read${item}MasterRspn { Response = rspn1.Response };
+
+                var rspn = new Read${item}MasterRspn();
+                using (var ctx = new Entity.${EName}())
+                {
+                    var docs = from doc in ctx.${TableName}.Where(c => c.is_deleted == 0 && c.is_active == 1)
+                               select new ${item}MasterList
+                               {
+                                   ${DbtoClass}
+                               };
+                               ${Filters}
+
+                    var result = docs.ToList();
+                    rspn.${item}MasterList = result.ToList();
+                    rspn.Response = "OK";
+                    return rspn;
+                }
+            }
+            catch (Exception ex)
+            {
+                return new Read${item}MasterRspn { Response = "catch:"+ex.Message };
+            }
+        }`;
+                    RqstContent += `    public class Read${item}MasterRqst
+    {
+        public string LoginToken { get; set; } = "";
+        ${RqstFields}
+    }
+`;
+                    RspnContent += `    public class Read${item}MasterRspn
+    {
+        public string Response = "";
+        public List<${item}MasterList> ${item}MasterList = new List<${item}MasterList> { };
+    }
+
+    public class ${item}MasterList
+    {
+        ${RspnFields}
+    }
+`;
+                });
+            }
+            $('#TextAreaFunction').val(FunctionContent);
+            $('#TextAreaRqst').val(RqstContent);
+            $('#TextAreaRspn').val(RspnContent);
+
+            $('#TextAreaFunction').select();
+
+        }
+
+    </script>
+
+</body>
+
+</html>

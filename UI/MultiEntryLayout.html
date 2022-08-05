@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathya UI</title>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+
+        }
+
+        .OuterMenu {
+            margin-top: 10px;
+        }
+
+        .card {
+            /* width: 30%; */
+            height: 100%;
+            background-color: rgb(228, 228, 228);
+
+        }
+
+        .row {
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .alert {
+            width: fit-content;
+            float: right;
+
+
+        }
+
+        .form-check {
+            display: inline-block;
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 10px gray;
+
+        }
+
+        i {
+            padding: 0.5em;
+
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <a href="./Index.html">
+                    <button type="button" class="btn btn-primary ButtonBack">Go Back</button></a>
+            </div>
+            <div class="col-2">
+                <select class="form-select form-select-md" aria-label=".form-select-sm example" id="DefaultSelect">
+                    <option value="TextBox" selected>Default - TextBox</option>
+                    <option value="TextBox">TextBox</option>
+                    <option value="DropDown">DropDown</option>
+                    <option value="DateBox">DateBox</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="OuterMenu">
+
+            <textarea class="form-control form-input" name="TextAreaInput" id="TextAreaInput" rows="5"
+                placeholder="Ctrl + Enter to Submit"></textarea>
+
+            <div class="row" >
+                <div class="col">
+
+                </div>
+                <div class="col-1">
+                    <button type="button" class="btn btn-primary ButtonBack"
+                        onclick="CreateMultipleEntry()">Submit</button>
+                </div>
+            </div>
+
+            
+
+
+            <div class="row" id="CopyArea">
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaView" onfocus="Copy(this)" id="TextAreaView"
+                        placeholder="Paste In View"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaController" onfocus="Copy(this)"
+                        id="TextAreaController" placeholder="Paste In Controller"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaModel" onfocus="Copy(this)"
+                        id="TextAreaModel" placeholder="Paste In Model"></textarea>
+                </div>
+
+            </div>
+
+
+            <div class="row">
+                <h4>Model Paste</h4>
+                <div class="col">
+                    <textarea class="form-control form-input" name="ModelPaste" id="ModelPaste"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <textarea id="linkToCopy" value="TEXT TO COPY" style="position: absolute; z-index: -999; opacity: 0;"></textarea>
+
+    <script>
+        //For changing names into entry rows
+        $("#TextAreaInput").on('keyup', function (e) {
+            if (e.ctrlKey && e.key === 'Enter' || e.ctrlKey && e.keyCode === 13) {
+                // Do something
+                // console.log(e);
+                CreateMultipleEntry();
+            }
+        });
+
+        function CreateMultipleEntry() {
+            var variables = $(`#TextAreaInput`).val();
+            console.log(variables);
+            MainData = variables.split(/\r?\n/);
+
+           
+
+            MainData.forEach( function (item, index, arr){
+                var row =`<div class="row" name="FieldRows">
+                <div  class="col-auto" name="Sno">
+                   ${index+1}
+                </div>
+               
+                <div class="col-auto">
+                    <select class="form-select form-select-md" aria-label=".form-select-sm example" id="InputSelect">
+                        <option value="TextBox">TextBox</option>
+                        <option value="DropDown">DropDown</option>
+                        <option value="DateBox">DateBox</option>
+                    </select>
+                </div>
+
+
+                <div class="col-auto">
+                    <input type="text" id="FiledName" name="FiledName" placeholder="Id ,Model ,Name"
+                        class="form-control" value="${item}">
+                </div>
+                <div class="col-auto">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            IsRequired
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            ReadOnly
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            IsPostBack
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-auto">
+                    <i class="fas fa-plus" onclick="AddRow(this)"></i>
+                    <i class="fas fa-trash" onclick="DeleteRow(this)"></i>
+                </div>
+                
+
+
+
+
+
+            </div>`;
+
+
+            $("#CopyArea").before(row);
+
+
+
+
+            });
+
+        }
+
+    </script>
+
+    <script>
+        function AddRow(e) {
+            var Row = $(e.closest('.row'));
+            var Clone=Row.clone();
+            //    Clone=Clone.clone();
+            Row.after(Clone);
+            ReNumber();
+        }
+        function DeleteRow(e) {
+            var Row = $(e.closest('.row'));
+            Row.remove();
+            //    Clone=Clone.clone();
+            ReNumber();
+            
+        }
+
+        function ReNumber(){
+            var Rows=$("div[name=FieldRows]");
+            Rows.each(function (item, index, arr){
+               var div=$(this).children("div[name='Sno']").text(item+1);
+               
+                console.log(div);
+            });
+            console.log(Rows);
+        }
+    </script>
+
+    <script>
+
+        $(document).on("paste", function (event) {
+            var MainData;
+            if (event.target.id == "ModelPaste") {
+                setTimeout(function () {
+                    console.log(event.target.value);
+                    MainData = event.target.value;
+                    MainData = MainData.split(/\r?\n/);
+
+                    MainData.forEach(function (item, index, arr) {
+                        var Data = item.split("string")[1] ?? item;
+                        Data = Data.split("int")[1] ?? Data;
+                        Data = Data.split("bool")[1] ?? Data;
+                        Data = Data.split("DateTime")[1] ?? Data;
+                        Data = Data.split("Guid")[1] ?? Data;
+                        Data = Data.split(">")[1] ?? Data;
+                        Data = Data.split("{")[0] ?? Data;
+                        Data = Data.split(";")[0] ?? Data;
+                        Data = Data.split("=")[0] ?? Data;
+                        Data = Data.trim();
+                        Data += "\n";
+
+                        arr[index] = Data;
+                    });
+                    console.log(MainData);
+                    $("#TextAreaInput").val(MainData.join(" "));
+                }, 300);
+
+            }
+        });
+
+
+
+        function Copy(e) {
+            // var Content= e.target.value;
+            if (e.value != "") {
+                e.select();
+                document.execCommand("copy");
+                var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+<strong>`+ e.id + ` Box Coppied.</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>`;
+
+                $('body').append(alert);
+                $(".alert").delay(3000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+
+            }
+        }
+    </script>
+
+
+    <script>
+        function TextBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += TextBox20.GetHtml("x", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.x, "x", "x", false, true);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += TextBox20.GetHtml("` + Item.replace(/\s/g, "") + `", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", "` + Item + `", false, true);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+            //             document.execCommand("copy");
+            //             var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+            // <strong>TextBox View Coppied Successfully.</strong>
+            // <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            // </div>`;
+
+            //             $('body').append(alert);
+            //             $(".alert").delay(3000).slideUp(200, function () {
+            //                 $(this).alert('close');
+            //             });
+
+
+        }
+
+        function DropDown(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += ` ListBox20.SimpleListBox x = new ListBox20.SimpleListBox
+    {
+        ControlId = "x",
+        IsPostBack = false,
+        Label = "x",
+        SelectedValue = Model.x,
+        ValueList = Model.x,
+        Size = ListBox20.Size.S5,
+        IsRequired = true,
+        PlaceHolder="x",
+    };
+    htmlstr += ListBox20.GetHtml(x);\n`;
+
+                ControllerContent += ` val = new List<string>();
+            model.BranchList = val;\n`;
+
+                ModelContent += `public string x { get; set; }
+            public List<string> xList { get; set; }\n`;
+
+            } else {
+
+                variables.forEach(Item => {
+                    ViewContent += ` ListBox20.SimpleListBox ` + Item.replace(/\s/g, "") + ` = new ListBox20.SimpleListBox
+    {
+        ControlId = "` + Item.replace(/\s/g, "") + `",
+        IsPostBack = false,
+        Label = "` + Item + `",
+        SelectedValue = Model.` + Item.replace(/\s/g, "") + `,
+        ValueList = Model.` + Item.replace(/\s/g, "") + `List,
+        Size = ListBox20.Size.S5,
+        IsRequired = true,
+        PlaceHolder="` + Item.replace(/\s/g, "") + `",
+    };
+    htmlstr += ListBox20.GetHtml(` + Item.replace(/\s/g, "") + `);\n`;
+
+                    ControllerContent += ` val = new List<string>();
+
+            model.` + Item.replace(/\s/g, "") + `List = val;\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }
+            public List<string> ` + Item.replace(/\s/g, "") + `List { get; set; }\n`;
+                });
+            }
+
+
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function RadioBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += CheckBox20.GetHtml("x", Model.x, "x", false);\n`;
+                ModelContent += `public bool x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += CheckBox20.GetHtml("` + Item.replace(/\s/g, "") + `", Model.` + Item.replace(/\s/g, "") + `, "` + Item + `", false);\n`;
+                    ModelContent += `public bool ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function DateBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `Date20.Properties WarrantyDate = new Date20.Properties
+    {
+        ControlId = "x",
+        Label = "x",
+        DateType = Date20.DateType.Date,
+        MinDate = DateTime.Today.ToString(),
+        Size = Date20.Size.S5,
+        ReturnValue = Model.x,
+    };
+    htmlstr += Date20.GetHtml(WarrantyDate);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `Date20.Properties WarrantyDate = new Date20.Properties
+    {
+        ControlId = "` + Item.replace(/\s/g, "") + `",
+        Label = "` + Item + `",
+        DateType = Date20.DateType.Date,
+        MinDate = DateTime.Today.ToString(),
+        Size = Date20.Size.S5,
+        ReturnValue = Model.` + Item.replace(/\s/g, "") + `,
+    };
+    htmlstr += Date20.GetHtml(WarrantyDate);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+        function CheckBox(e) {
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+            variables.forEach(function (item, index, arr) {
+                arr[index] = (item.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ")).trim();
+            });
+            // variables=variables.split()
+            console.log(variables);
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            if (variables.length == 1 && variables[0] == "") {
+                ViewContent += `htmlstr += RadioBox20.GetHtml("x", "x", Model.x, new List<string> { "y", "z" }, false, false);\n`;
+                ModelContent += `public string x { get; set; }\n`;
+            } else {
+                variables.forEach(Item => {
+                    ViewContent += `htmlstr += RadioBox20.GetHtml("` + Item.replace(/\s/g, "") + `", "` + Item + `", Model.` + Item.replace(/\s/g, "") + `, new List<string> { "y", "z" }, false, false);\n`;
+                    ModelContent += `public string ` + Item.replace(/\s/g, "") + ` { get; set; }\n`;
+                });
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaModel').val(ModelContent);
+
+            $('#TextAreaView').select();
+
+        }
+
+    </script>
+
+
+
+</body>
+
+</html>

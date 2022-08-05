@@ -1,0 +1,2331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathya UI</title>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+
+        }
+
+        .OuterMenu {
+            margin-top: 10px;
+        }
+
+        .card {
+            /* width: 30%; */
+            height: 100%;
+            background-color: rgb(228, 228, 228);
+
+        }
+
+        .row {
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .alert {
+            width: fit-content;
+            float: right;
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 10px gray;
+        }
+
+        .ButtonBack {
+            margin-top: 5px;
+        }
+
+        .ButtonSubmitrow {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .ButtonSubmit {
+            float: right;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <div class="container-fluid">
+        <div>
+            <div class="row">
+                <div class="col">
+                    <a href="./Index.html">
+                        <button type="button" class="btn btn-primary">Go Back</button></a>
+                </div>
+                <div class="col"></div>
+                <div class="col">
+                    <input type="text" id="PageName" name="PageName" placeholder="Enter Page name"
+                        class="form-control input">
+                </div>
+                <div class="col">
+                    <input type="text" id="ControllerName" name="ControllerName" placeholder="Enter Controller Name"
+                        class="form-control input">
+                </div>
+                <div class="col">
+                    <input type="text" id="PName" name="PName" placeholder="Enter Project name"
+                        class="form-control input">
+                </div>
+            </div>
+
+            <!-- <div class="row">
+                <textarea class="form-control form-input" name="TextAreaInput" id="TextAreaInput" rows="5"
+                    placeholder="paste function name here :"></textarea>
+            </div> -->
+            <div class="row">
+                <textarea class="form-control form-input" name="TableModelInput" id="TableModelInput" rows="5"
+                    placeholder="paste table model name here :"></textarea>
+            </div>
+            <div class="row ButtonSubmitrow">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+
+                <div class="col">
+                    <div class="form-check float-end">
+                        <input class="form-check-input" type="checkbox" value="" id="AllRequired" name="AllRequired"
+                            onclick="AllRequired(this)">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            All Required
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check float-end">
+                        <input class="form-check-input" type="checkbox" value="" id="AllReadOnly" name="AllReadOnly"
+                            onclick="AllReadOnly(this)">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            All ReadOnly
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check float-end">
+                        <input class="form-check-input" type="checkbox" value="" id="AllUrl" name="AllUrl"
+                            onclick="AllUrl(this)">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            All Url
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-check float-end">
+                        <input class="form-check-input" type="checkbox" value="" id="AllPopUp" name="AllPopUp"
+                            onclick="AllPopUp(this)">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            All PopUp
+                        </label>
+                    </div>
+                </div>
+                <div class="col">
+                    <button id="TableSubmit" class="btn btn-primary ButtonSubmit"
+                        onclick="CreateMultipleEntry()">Submit</button>
+                </div>
+            </div>
+            <div class="row" id="CopyArea"></div>
+
+            <div class="row">
+                <div class="col">
+                    <table id="tblLocations" class="table table-hover table-dark">
+                    </table>
+                    <table id="MtblLocations" class="table table-hover table-dark">
+                    </table>
+
+                </div>
+
+
+
+                <script type="text/javascript"
+                    src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+                <link rel="stylesheet"
+                    href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/themes/smoothness/jquery-ui.css" />
+                <script type="text/javascript"
+                    src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js"></script>
+                <script type="text/javascript">
+                    $(function () {
+                        $("#tblLocations").sortable({
+                            items: 'tr:not(tr:first-child)',
+                            cursor: 'pointer',
+                            axis: 'y',
+                            dropOnEmpty: false,
+                            start: function (e, ui) {
+                                ui.item.addClass("selected");
+                            },
+                            stop: function (e, ui) {
+                                ui.item.removeClass("selected");
+                                $(this).find("tr").each(function (index) {
+                                    if (index > 0) {
+                                        $(this).find("td").eq(0).html(index);
+                                    }
+                                });
+                            }
+                        });
+
+
+                        $("#MtblLocations").sortable({
+                            items: 'tr:not(tr:first-child)',
+                            cursor: 'pointer',
+                            axis: 'y',
+                            dropOnEmpty: false,
+                            start: function (e, ui) {
+                                ui.item.addClass("selected");
+                            },
+                            stop: function (e, ui) {
+                                ui.item.removeClass("selected");
+                                $(this).find("tr").each(function (index) {
+                                    if (index > 0) {
+                                        $(this).find("td").eq(0).html(index);
+                                    }
+                                });
+                            }
+                        });
+
+                    });
+                </script>
+
+            </div>
+
+
+
+            <div class="row">
+                <div class="col" onclick="EntryPage()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Entry Page</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ReportPage()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Report Page</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="MultiEntry()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Multi Entry</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col" onclick="ViewPage()">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">View Page</h5>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+
+            <div class="row">
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaController" onfocus="Copy(this)"
+                        id="TextAreaController" placeholder="Paste In Controller"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaModel" onfocus="Copy(this)"
+                        id="TextAreaModel" placeholder="Paste In Model"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaView" onfocus="Copy(this)" id="TextAreaView"
+                        placeholder="Paste In View"></textarea>
+                </div>
+
+
+            </div>
+
+
+            <div class="row">
+                <h4>Model Paste</h4>
+                <div class="col">
+                    <textarea class="form-control form-input" name="ModelPaste" id="ModelPaste"></textarea>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <textarea id="linkToCopy" value="TEXT TO COPY" style="position: absolute; z-index: -999; opacity: 0;"></textarea>
+
+
+
+
+
+
+
+
+
+    <script>
+        //onload functions
+        $(function () {
+            $("#PName").val(localStorage.getItem('PName'));
+            $("#ControllerName").val(localStorage.getItem('ControllerName'));
+            $("#PageName").val(localStorage.getItem('PageName'));
+
+            $("#TextAreaInput").on('keyup', function (e) {
+                if (e.ctrlKey && e.key === 'Enter' || e.ctrlKey && e.keyCode === 13) {
+                    // Do something
+                    // console.log(e);
+                    CreateMultipleEntry();
+                }
+            });
+
+
+        });
+
+
+        //for converting model to names
+        $(document).on("paste", function (event) {
+            var MainData;
+            if (event.target.id == "ModelPaste") {
+                setTimeout(function () {
+                    console.log(event.target.value);
+                    MainData = event.target.value;
+                    MainData = MainData.split(/\r?\n/);
+
+                    MainData.forEach(function (item, index, arr) {
+                        var Data = item.split("string")[1] ?? item;
+                        Data = Data.split("int")[1] ?? Data;
+                        Data = Data.split("bool")[1] ?? Data;
+                        Data = Data.split("DateTime")[1] ?? Data;
+                        Data = Data.split("Guid")[1] ?? Data;
+                        Data = Data.split(">")[1] ?? Data;
+                        Data = Data.split("{")[0] ?? Data;
+                        Data = Data.split(";")[0] ?? Data;
+                        Data = Data.trim();
+                        Data += "\n";
+
+                        arr[index] = Data;
+                    });
+                    console.log(MainData);
+                    $("#TextAreaInput").val(MainData.join(" "));
+                }, 300);
+
+            }
+        });
+        //for copying form textareas on focus
+        function Copy(e) {
+            // var Content= e.target.value;
+            if (e.value != "") {
+                e.select();
+                document.execCommand("copy");
+                var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+<strong>`+ e.id + ` Box Coppied.</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>`;
+
+                $('body').append(alert);
+                $(".alert").delay(3000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+
+            }
+        }
+    </script>
+
+
+    <script>
+        var variable = "";
+        var ModelArr = [];
+        var ProcessedArr = [];
+        var MModelArr = [];
+        var MProcessedArr = [];
+        var RowsArr = [];
+        var TableName = "table_name";
+        var TablePath = "Test.path";
+        var FieldName = "FieldListName";
+        var RFieldName = "FieldListName";
+        var PName = "";
+        var ControllerName = "";
+
+        function AddRow(e) {
+            var Row = $(e.closest('tr'));
+            var Clone = Row.clone();
+            //    Clone=Clone.clone();
+            Row.after(Clone);
+            ReNumber();
+        }
+        function DeleteRow(e) {
+            var Row = $(e.closest('tr'));
+            Row.remove();
+            //    Clone=Clone.clone();
+            ReNumber();
+
+        }
+
+        function ReNumber() {
+            var Rows = $("#tblLocations>").children();
+            Rows.each(function (item, index, arr) {
+                var div = $(this).children("td[name='Sno']").text(item);
+
+                console.log(div);
+            });
+            console.log(Rows);
+        }
+
+        function AllRequired(e) {
+            CheckBoxList = $("input[name=IsRequired]");
+            console.log(CheckBoxList);
+            if ($(e).is(':checked')) {
+                CheckBoxList.each(function (item) { $(this).prop('checked', true); });
+            } else {
+                CheckBoxList.each(function (item) { $(this).prop('checked', false); });
+            }
+        }
+
+        function AllReadOnly(e) {
+            CheckBoxList = $("input[name=ReadOnly]");
+            console.log(CheckBoxList);
+            if ($(e).is(':checked')) {
+                CheckBoxList.each(function (item) { $(this).prop('checked', true); });
+            } else {
+                CheckBoxList.each(function (item) { $(this).prop('checked', false); });
+            }
+        }
+        function AllUrl(e) {
+            CheckBoxList = $("input[name=IsUrl]");
+            console.log(CheckBoxList);
+            if ($(e).is(':checked')) {
+                CheckBoxList.each(function (item) { $(this).prop('checked', true); });
+            } else {
+                CheckBoxList.each(function (item) { $(this).prop('checked', false); });
+            }
+        }
+        function AllPopUp(e) {
+            CheckBoxList = $("input[name=IsPopUp]");
+            console.log(CheckBoxList);
+            if ($(e).is(':checked')) {
+                CheckBoxList.each(function (item) { $(this).prop('checked', true); });
+            } else {
+                CheckBoxList.each(function (item) { $(this).prop('checked', false); });
+            }
+        }
+
+        function CreateMultipleEntry() {
+            ReadModalArray();
+            // MainData =[]; 
+            // ModelArr.forEach(function (item, index, arr){ MainData.push(item[2]); });
+            $("#tblLocations").html("");
+            $("#MtblLocations").html("");
+            var MainData = ModelArr;
+            console.log(MainData);
+            var TableHead = `<tr>
+                            <th>Sno </th>
+                            <th>Field Type</th>
+                            <th>Field Id</th>
+                            <th>Field Name</th>
+                            <th>Required</th>
+                            <th>Read Only</th>
+                            <th>Post Back</th>
+                            <th>Add</th>
+                            <th>Delete</th>
+                        </tr>`;
+
+            var MTableHead = `<tr>
+                            <th>Sno </th>
+                            <th>Field Id</th>
+                            <th>Field Name</th>
+                            <th>Is Url</th>
+                            <th>Is PopUp</th>
+                            <th>Add</th>
+                            <th>Delete</th>
+                        </tr>`;
+
+
+            ModelArr.forEach(function (item, index, arr) {
+                var row = `<tr>
+                        <td name='Sno'>${index + 1}</td>
+                        <td> 
+                            <div class="col-auto">
+                                <select class="form-select form-select-md" aria-label=".form-select-sm example" id="FieldType">
+                                    <option value="TextBox">TextBox</option>
+                                    <option value="DropDown">DropDown</option>
+                                    <option value="DateBox">DateBox</option>
+                                    <option value="CheckBox">CheckBox</option>
+                                </select>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <input type="text" id="FiledIdName" name="FiledIdName" placeholder="Id ,Model"
+                                    class="form-control" value="${item[2]}">
+                            </div>            
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <input type="text" id="FiledName" name="FiledName" placeholder="Name"
+                                    class="form-control" value="${ProcessedArr[index][2]}">
+                            </div>            
+                        </td>
+                        
+                        <td>
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="IsRequired" name="IsRequired">
+                                    <label class="form-check-label" for="IsRequired">
+                                        IsRequired
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="ReadOnly" name="ReadOnly">
+                                    <label class="form-check-label" for="ReadOnly">
+                                        ReadOnly
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="IsPostBack" name="IsPostBack">
+                                    <label class="form-check-label" for="IsPostBack">
+                                        IsPostBack
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <i class="fas fa-plus" onclick="AddRow(this)"></i>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <i class="fas fa-trash" onclick="DeleteRow(this)"></i>
+                            </div>
+                        </td>
+
+                    </tr>`;
+
+                if (index == 0) { row = TableHead + row; }
+
+                $("#tblLocations").append(row);
+            });
+
+            var temp = $("#TableModelInput").val();
+            var count = (temp.match(/namespace/g) || []).length;
+            console.log(count);
+            var tbl2 = 1;
+            if (count = 3) {
+                tbl2 = 0;
+            }
+
+            if (tbl2 == 1) {
+
+                MModelArr.forEach(function (item, index, arr) {
+                    var row = `<tr>
+                        <td name='Sno'>${index + 1}</td>
+                        <td>
+                            <div class="col-auto">
+                                <input type="text" id="FiledIdName" name="FiledIdName" placeholder="Id ,Model"
+                                    class="form-control" value="${item[2]}">
+                            </div>            
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <input type="text" id="FiledName" name="FiledName" placeholder="Name"
+                                    class="form-control" value="${MProcessedArr[index][2]}">
+                            </div>            
+                        </td>
+                        
+                        <td>
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="IsUrl" name="IsUrl">
+                                    <label class="form-check-label" for="IsUrl">
+                                        Is Url
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="IsPopUp" name="IsPopUp">
+                                    <label class="form-check-label" for="IsPopUp">
+                                        IsPopUp
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <i class="fas fa-plus" onclick="AddRow(this)"></i>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="col-auto">
+                                <i class="fas fa-trash" onclick="DeleteRow(this)"></i>
+                            </div>
+                        </td>
+
+                    </tr>`;
+
+                    if (index == 0) { row = MTableHead + row; }
+
+                    $("#MtblLocations").append(row);
+                });
+            }
+
+        }
+
+        function ReadModalArray() {
+            ModelArr = [];
+            ProcessedArr = [];
+            MModelArr = [];
+            MProcessedArr = [];
+            RModelArr = [];
+            RProcessedArr = [];
+            PName = $("#PName").val();
+            localStorage.setItem('PName', PName);
+            ControllerName = $("#ControllerName").val();
+            localStorage.setItem('ControllerName', ControllerName);
+            PageName = $("#PageName").val();
+            localStorage.setItem('PageName', PageName);
+            if ($("#TableModelInput").val() != "") {
+                var temp = $("#TableModelInput").val();
+                var count = (temp.match(/namespace/g) || []).length;
+                console.log(count);
+                temp = temp.split(/namespace/g);
+
+                Array.prototype.move = function (from, to) {
+                    this.splice(to, 0, this.splice(from, 1)[0]);
+                    return this;
+                };
+                if (count = 3) {
+                    temp.move(1, 2);
+                }
+                console.log(temp);
+
+
+                console.log(temp);
+                if (temp[1] != null) {
+                    temp[1] = "namespace" + temp[1];
+                    var TableModel = temp[1].split(/\r?\n/);
+                    TableModel.forEach(function (item, index, arr) {
+                        arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                        if (item == "" || item == "{" || item == "}") return false;
+                        if (arr[index].length != 7 && arr[index].length != 3) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == false) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == true) arr[index][2] = arr[index][2].replace(";", "");
+                        if (arr[index].length == 7 && arr[index][6].includes("}") == false) return false;
+                        var a = arr[index];
+                        ModelArr.push(a);
+                    });
+
+                    var testn = TableModel[0][0];
+                    if (TableModel[0][1] == "class") {
+                        TableName = TableModel[0][2];
+                    }
+
+                    if (TableModel[0][0] == "namespace") {
+                        TableName = TableModel[2][2];
+                        TablePath = TableModel[0][1];
+                    }
+
+                    console.log(ModelArr);
+
+                    ProcessedArr = JSON.parse(JSON.stringify(ModelArr));
+                    ProcessedArr.forEach(function (item, index, arr) {
+                        item[2] = item[2].replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ").trim();
+                    });
+                    console.log(ProcessedArr);
+                }
+
+                if (temp[2] != null) {
+                    var TableModel = ("namespace" + temp[2]).split(/\r?\n/);
+                    TableModel.forEach(function (item, index, arr) {
+                        arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                        if (item == "" || item == "{" || item == "}") return false;
+                        if (arr[index].length != 7 && arr[index].length != 3) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == false) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == true) arr[index][2] = arr[index][2].replace(";", "");
+                        if (arr[index].length == 7 && arr[index][6].includes("}") == false) return false;
+                        var a = arr[index];
+                        MModelArr.push(a);
+                    });
+                    if (TableModel[0][1] == "class") {
+                        FieldName = TableModel[0][2];
+                    }
+
+                    if (TableModel[0][0] == "namespace") {
+                        FieldName = TableModel[2][2];
+                    }
+
+                    console.log(MModelArr);
+
+                    MProcessedArr = JSON.parse(JSON.stringify(MModelArr));
+                    MProcessedArr.forEach(function (item, index, arr) {
+                        item[2] = item[2].replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ").trim();
+                    });
+                    console.log(MProcessedArr);
+                }
+
+                if (temp[3] != null) {
+                    var TableModel = ("namespace" + temp[3]).split(/\r?\n/);
+                    TableModel.forEach(function (item, index, arr) {
+                        arr[index] = item.split(/(\s+)/).filter(e => e.trim().length > 0);
+                        if (item == "" || item == "{" || item == "}") return false;
+                        if (arr[index].length != 7 && arr[index].length != 3) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == false) return false;
+                        if (arr[index].length == 3 && arr[index][2].includes(";") == true) arr[index][2] = arr[index][2].replace(";", "");
+                        if (arr[index].length == 7 && arr[index][6].includes("}") == false) return false;
+                        var a = arr[index];
+                        RModelArr.push(a);
+                    });
+                    if (TableModel[0][1] == "class") {
+                        RFieldName = TableModel[0][2];
+                    }
+
+                    if (TableModel[0][0] == "namespace") {
+                        RFieldName = TableModel[2][2];
+                    }
+
+                    console.log(RModelArr);
+
+                    RProcessedArr = JSON.parse(JSON.stringify(RModelArr));
+                    RProcessedArr.forEach(function (item, index, arr) {
+                        item[2] = item[2].replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ").trim();
+                    });
+                    console.log(RProcessedArr);
+                }
+
+
+
+            }
+
+        }
+        //For reading page name
+        function ReadVariables() {
+            variable = $("#PageName").val();
+            if (variable != "") {
+                variable = variable.replace(/[A-Z]/g, str => ' ' + str).replace("  ", " ").trim();
+            }
+
+        }
+
+
+
+
+        function EntryPage(e) {
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            var CommentControls = "";
+
+            var FieldsToView = `    htmlstr += TextBox20.GetHtml("ContactPerson", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.ContactPerson, "Contact Person", "Contact Person", false, true);
+
+ListBox20.SimpleListBox ServiceCenter = new ListBox20.SimpleListBox
+{
+    ControlId = "ServiceCenter",
+    IsPostBack = false,
+    Label = "Service Center",
+    SelectedValue = Model.ServiceCenter,
+    ValueList = Model.ServiceCenterList,
+    Size = ListBox20.Size.S5,
+    IsRequired = true,
+};
+htmlstr += ListBox20.GetHtml(ServiceCenter);
+
+htmlstr += RadioBox20.GetHtml("Customer", "Customer", Model.Customer, new List<string> { "New Customer", "Existing Customer" }, false, false);
+
+htmlstr += CheckBox20.GetHtml("IsWarranty", Model.IsWarranty, "Is Warranty", false);
+
+
+Date20.Properties WarrantyDate = new Date20.Properties
+{
+    ControlId = "WarrantyDate",
+    Label = "Warranty Date",
+    DateType = Date20.DateType.Date,
+    MinDate = DateTime.Today.ToString(),
+    Size = Date20.Size.S5,
+    ReturnValue = Model.WarrantyDate,
+};
+
+
+htmlstr += Date20.GetHtml(WarrantyDate);`;
+
+            var FieldsToController = ``;
+
+
+            var FieldsToModel = `            public string Customer { get; set; } = "";
+
+
+
+//For dropdown
+public string ServiceCenter { get; set; } = "";
+public List<string> ServiceCenterList { get; set; } = new List<string>();
+`;
+
+            var ContentToControls = `    List<string> ValList = new List<string>();
+    List<string> IdList = new List<string>();
+    ValList.Add("Select");
+    IdList.Add("Select");
+
+    //SCS.Msg4.Model.ReadGroupMasterRqst readGroupMasterRqst = new SCS.Msg4.Model.ReadGroupMasterRqst()
+                //{
+                //    LoginToken = new SessionIO().Token,
+                    
+                //};
+                //SCS.Msg4.Model.ReadGroupMasterRspn readGroupMasterRspn = SCS.Msg4.Client.CoreClient.ReadGroupMaster(readGroupMasterRqst);
+                //readGroupMasterRspn.GroupMasterList.ForEach(a => { ValList.Add(a.GroupName); IdList.Add(a.GroupId); });
+
+    // model.ServiceCenterList = ValList;
+    // model.ServiceCenterIdList = IdList;
+`;
+            var TableClientPath = TablePath.replace("Model", "Client");
+
+            if (ModelArr.length > 0) {
+
+                FieldsToController = "";
+                FieldsToModel = "";
+                FieldsToView = "";
+                CommentControls = "//";
+                ContentToControls = "";
+                ModelArr.forEach(function (item, index, arr) {
+                    if (item[1] == "string") {
+                        FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    } else if (item[1] == "int") {
+                        FieldsToController += `${item[2]} =Convert.ToInt32( "0"+model.${item[2]}),\n`;
+                    } else if (item[1] == "DateTime") {
+                        FieldsToController += `${item[2]} =Convert.ToDateTime( model.${item[2]}),\n`;
+                    } else if (item[1] == "bool") {
+                        FieldsToController += `${item[2]} =Convert.ToBoolean( model.${item[2]}),\n`;
+                    } else {
+                        FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    }
+                });
+                console.log(FieldsToController);
+
+
+                ModelArr.forEach(function (item, index, arr) {
+                    if (item[1] == "bool") {
+                        FieldsToModel += `public bool ${item[2]} { get; set; } = false;\n`;
+                    } else {
+                        FieldsToModel += `public string ${item[2]} { get; set; } = "";\n`;
+                    }
+                });
+                console.log(FieldsToModel);
+
+                var ViewRows = [];
+                var TempRows = $("#tblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FieldType").val();
+                        temp[2] = row.find("#FiledIdName").val();
+                        temp[3] = row.find("#FiledName").val();
+                        temp[4] = row.find("#IsRequired").is(":checked");
+                        temp[5] = row.find("#ReadOnly").is(":checked");
+                        temp[6] = row.find("#IsPostBack").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+                ViewRows.forEach(function (item, index, arr) {
+                    var exist = FieldsToModel.indexOf(`public string ${item[2]} { get; set; }`);
+                    if (exist == -1) {
+                        FieldsToModel += `public string ${item[2]}  { get; set; } = "";`
+                    }
+                    if (item[1] == "TextBox") {
+                        FieldsToView += `    htmlstr += TextBox20.GetHtml("${item[2]}", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.${item[2]}, "${item[3]}", "${item[3]}", ${item[6]}, ${item[5]});\n`;
+                    } else if (item[1] == "DropDown") {
+                        CommentControls = "";
+                        FieldsToView += `ListBox20.SimpleListBox ${item[2]} = new ListBox20.SimpleListBox
+{
+    ControlId = "${item[2]}",
+    IsPostBack = ${item[4]},
+    Label = "${item[3]}",
+    SelectedValue = Model.${item[2]},
+    ValueList = Model.${item[2]}List,
+    IdList = Model.${item[2]}IdList,
+    Size = ListBox20.Size.S5,
+    IsRequired = ${item[4]},
+};
+htmlstr += ListBox20.GetHtml(${item[2]});\n`;
+                        FieldsToModel += `public List<string> ${item[2]}List  { get; set; } = new List<string>();
+                            public List<string> ${item[2]}IdList  { get; set; } = new List<string>();
+                            `;
+
+                        ContentToControls += `    ValList = new List<string>();
+    IdList = new List<string>();
+    ValList.Add("Select");
+    IdList.Add("Select");
+
+    //${TablePath}.Read${item[2]}MasterRqst read${item[2]}MasterRqst = new ${TablePath}.Read${item[2]}MasterRqst()
+                //{
+                //    LoginToken = new SessionIO().Token,
+                    
+                //};
+                //var read${item[2]}MasterRspn = ${TableClientPath}.Client.CoreClient.Read${item[2]}Master(read${item[2]}MasterRqst);
+                //read${item[2]}MasterRspn.${item[2]}MasterList.ForEach(a => { ValList.Add(a.${item[2]}Name); IdList.Add(a.${item[2]}Id); });
+
+    model.${item[2]}List = ValList;
+    model.${item[2]}IdList = IdList;`;
+
+                    } else if (item[1] == "DateBox") {
+                        FieldsToView += `Date20.Properties ${item[2]} = new Date20.Properties
+{
+    ControlId = "${item[2]}",
+    Label = "${item[3]}",
+    DateType = Date20.DateType.Date,
+    MinDate = DateTime.Today.ToString(),
+    Size = Date20.Size.S5,
+    ReturnValue = Model.${item[2]},
+    IsRequired = ${item[4]},
+};
+htmlstr += Date20.GetHtml(${item[2]});\n`;
+                    } else if (item[1] == "CheckBox") {
+                        FieldsToView += `htmlstr += CheckBox20.GetHtml("${item[2]}", Model.${item[2]}, "${item[3]}", ${item[6]});\n`;
+                        FieldsToModel = FieldsToModel.replace(`public string ${item[2]} { get; set; } = "";`, `public bool ${item[2]} { get; set; } = false;`);
+                        FieldsToController = FieldsToController.replace(`model.${item[2]},`, `model.${item[2]}.ToString(),`);
+                        FieldsToController = FieldsToController.replace(`"0"+model.${item[2]}`, `model.${item[2]}`);
+                    }
+                });
+                console.log(FieldsToView);
+
+
+            }
+
+
+            ReadVariables();
+            console.log(variable);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+
+
+
+
+            if (variable != "") {
+                var ActionName = variable.replace(/\s/g, "");
+                // var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                var RqstName = TableName.replace("Rqst", "");
+                var ClientName = TablePath.replace("Model", "Client");
+                ViewContent += `@using WebTheme20
+@using ${PName}.Models
+@model ${ControllerName}.${ActionName}
+@{
+    Layout = "~/Views/Shared/EntryLayout.cshtml";
+}
+
+@using (Html.BeginForm("${ActionName}", "${ControllerName}", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.Raw(Model.Response);
+
+    string htmlstr = "";
+
+
+    ${FieldsToView}
+
+
+
+
+
+    Form20 form = new Form20();
+    form.CardTitle = ViewBag.pageheader;
+    form.AddButton("btnsubmit", "Update", "Update");
+    form.ControlId = "${ActionName}";
+    form.Orientation = Form20.TabOrientation.Horizontal;
+    form.AddCard(htmlstr, 1);
+    form.CardTitle = "${variable}";
+    form.AddTab(1, "General");
+
+
+
+
+    //For second tab
+
+    // string htmlstr1 = "";
+
+
+
+    // form.AddButton("btnsubmit", "Update", "Update");
+    // form.AddCard(htmlstr1, 2);
+    // form.AddTab(2, "Custom");
+
+
+
+
+    @Html.Raw(form.GetHtml())
+
+
+}
+<script>
+        //for popup close and reload manage page on sucessfull update
+        var response ="@Model.Response";
+        if (response == "OK") {
+            setTimeout(function () {
+
+                window.opener.location.reload(true);
+                window.close(); }, 2000);
+
+        }
+<\/script>
+<script>
+    // For refill on a successfull submit, key = ctrl+shift+F
+    $(document).on('keypress', function (e) {
+        if (!e) e = window.event;
+        if (e.shiftKey && e.ctrlKey && e.key == "\u0006") {
+            window.location.href = window.location.href.replace(/[\?#].*|$/, "?Fill=Yes");
+        }
+    });
+
+<\/script>`;
+                ControllerContent += `#region ${variable}
+
+
+
+[HttpGet]
+public ActionResult ${ActionName}(string Fill)
+{
+    try
+    {
+        if (!CS4.Net.Library.Session4.IsSignedIn()) { return RedirectToAction("Index", "Signin"); }
+        ${ControllerName}.${ActionName} model = new ${ControllerName}.${ActionName}();
+        ${CommentControls}Load${ActionName}Controls(model);
+        if (Fill == "Yes" && Session["Model"] != null) model = Json4.GetType<${ControllerName}.${ActionName}>(Session["Model"].ToString());
+
+        return View(model);
+    }
+    catch (Exception ex)
+    {
+        ${ControllerName}.${ActionName} model = new ${ControllerName}.${ActionName}();
+        model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+        return View(model);
+    }
+}
+
+
+[HttpPost]
+public ActionResult ${ActionName}(${ControllerName}.${ActionName} model, string btnsubmit)
+{
+    try
+    {
+        if (!CS4.Net.Library.Session4.IsSignedIn()) { return RedirectToAction("Index", "Signin"); }
+        ${CommentControls}Load${ActionName}Controls(model);
+        if (btnsubmit == "Update")
+        {
+
+            ${TablePath}.${TableName} ${TableName} = new ${TablePath}.${TableName}()
+                    {
+                        ${FieldsToController}
+                    };
+                    string json = Json4.GetJson(${TableName});
+                    var Res = ${ClientName}.CoreClient.${RqstName}(${TableName});
+                    string json2 = Json4.GetJson(Res);
+
+                    if (Res.Response == "OK") model.Response = AlertBox20.GetHtml(WebTheme20.AlertBox20.AlertType.Success, "${variable} updated!").ToString();                     
+                    else model.Response = AlertBox20.GetHtml(WebTheme20.AlertBox20.AlertType.Error, Res.Response).ToString();
+
+
+            if (model.Response == "OK")
+            {
+                Session["Model"] = Json4.GetJson(model);
+                model = new ${ControllerName}.${ActionName}();
+
+            }
+        }
+        return View(model);
+    }
+    catch (Exception ex)
+    {
+        model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+        return View(model);
+    }
+}
+
+
+
+
+
+public ${ControllerName}.${ActionName} Load${ActionName}Controls(${ControllerName}.${ActionName} model)
+{
+    List<string> ValList = new List<string>();
+            List<string> IdList = new List<string>();
+
+ ${ContentToControls}
+
+return model;
+}
+
+
+#endregion`;
+                ModelContent += `#region ${variable}
+                public class ${ActionName}
+        {
+            public string Response { get; set; } = "";
+            ${FieldsToModel}
+
+        }
+        #endregion`;
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+            // console.log(FunctionContent);
+            $('#TextAreaController').select();
+
+        }
+
+
+
+
+
+        function ReportPage(e) {
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+
+
+            ReadVariables();
+            console.log(variable);
+            ReadModalArray();
+            // console.log(ModelArr);
+            // console.log(ProcessedArr);
+            // console.log(TrimedArr);
+
+
+
+            var FieldsToView = `
+    htmlstr += TextBox20.GetHtml("ItemName", TextBox20.Size.S4, TextBox20.TextBoxType.Text, Model.ItemName, "Item Name", "Item Name", false, false);
+
+    ListBox20.SimpleListBox CallType = new ListBox20.SimpleListBox()
+    {
+        ControlId = "CallType",
+        SelectedValue = Model.CallType,
+        ValueList = Model.CallTypeList,
+        Label = "CallType",
+        PlaceHolder = "CallType",
+        Size = ListBox20.Size.S4,
+        IsRequired = false,
+    };
+    htmlstr += ListBox20.GetHtml(CallType).ToString();
+
+    htmlstr += CheckBox20.GetHtml("IsPartsUsed", Model.IsPartsUsed, "Is Parts Used", false);
+
+
+
+
+    //htmlstr += "<div class='form-group Rfilter'>";
+    //htmlstr += "<label>&nbsp;</label>";
+    //htmlstr += "<div class='input-group'>";
+    //htmlstr += "<button type='submit' class='btn btn-primary' style='width:auto' onclick='return confirm(\"Are you sure to send Excel to Telegram ？\")' value='Telegram' name='Telegram'>Telegram</button>";
+    //htmlstr += "</div>";
+    //htmlstr += "</div > ";`;
+
+            var FieldsToController = `//One61.Model.ReadCRMServiceTicketInfoListRqst readCRMServiceTicketInfoListRqst = new One61.Model.ReadCRMServiceTicketInfoListRqst()
+                //{
+                //    LoginToken = Session4.UserInfo.Guid,
+                //    Order = order,
+                //    Sort = sort,
+                //    Todate = end,
+                //    FromDate = start,
+                //    StartPage = Convert.ToInt32(page ?? "1"),
+                //    RowsPerPage = 10,
+
+                //    Address = model.Address??"",
+                //    Branch=model.Branch ?? "",
+                //    CustomerName=model.CustomerName ?? "",
+                //    ItemName=model.ItemName ?? "",
+                //    TicketID=model.TicketID ?? "",
+                //    Brand=model.Brand ?? "",
+                //    CallType=model.CallType ?? "",
+                //    Mobile=model.Mobile ?? "",
+                //    SerRegNum=model.SerRegNum ?? "",
+                //    Status=model.Status ?? "",
+                //};
+                //var Result = One61.Client.CoreClient.ReadCRMServiceTicketInfoList(readCRMServiceTicketInfoListRqst);`;
+            var FieldsToController2 = `                column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.Date, Name = "Created Date", Field = "CreatedDate", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);
+                column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.General, Name = "Register Number", Field = "RegisterNumber", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);
+
+                //column = new TableReport20.Column()
+                //{ Sort = sort, ColumnType = TableReport20.ColumnType.General, Name = "View", };
+                //TableReport20.AddColumn(column); `;
+
+            var FieldsToController3 = `
+
+                        prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.CreatedDate.ToString(), TargetUrl = url, ShowPopup = true, };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells);
+
+                        prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.RegisterNumber , TargetUrl = url,ShowPopup=true, };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells);
+
+
+                        //prop = new Link20.Properties { Icon = Icon20.IconCollection.ActionEdit, TargetUrl=url,ShowPopup=true,ToolTip="View", };
+                        //cell = new Link20();
+                        //cell.AddUrl(prop);
+                        //cells = new List<Link20>();
+                        //cells.Add(cell);
+                        //row.cells.Add(cells);
+
+                        `;
+
+
+            var FieldsToModel = `            public string ItemName { get;  set; } = "";
+
+public string CallType { get; set; } = "";
+public List<string> CallTypeList { get; set; }
+`;
+            var ContentToControls = `    List<string> ValList = new List<string>();
+    List<string> IdList = new List<string>();
+    ValList.Add("Select");
+    IdList.Add("Select");
+
+    //SCS.Msg4.Model.ReadGroupMasterRqst readGroupMasterRqst = new SCS.Msg4.Model.ReadGroupMasterRqst()
+                //{
+                //    LoginToken = sessionIO.Token
+                    
+                //};
+                //SCS.Msg4.Model.ReadGroupMasterRspn readGroupMasterRspn = SCS.Msg4.Client.CoreClient.ReadGroupMaster(readGroupMasterRqst);
+                //readGroupMasterRspn.GroupMasterList.ForEach(a => { ValList.Add(a.GroupName); IdList.Add(a.GroupId); });
+
+    // model.ServiceCenterList = ValList;
+    // model.ServiceCenterIdList = IdList;
+`;
+
+
+
+            if (ModelArr.length > 0) {
+
+                FieldsToController = "";
+                FieldsToModel = "";
+                FieldsToView = "";
+                CommentControls = "//";
+                ContentToControls = "";
+                ModelArr.forEach(function (item, index, arr) {
+                    if (item[1] == "string") {
+                        FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    } else if (item[1] == "int") {
+                        FieldsToController += `${item[2]} =Convert.ToInt32( "0"+model.${item[2]}),\n`;
+                    } else if (item[1] == "DateTime") {
+                        FieldsToController += `${item[2]} =Convert.ToDateTime( model.${item[2]}),\n`;
+                    } else if (item[1] == "bool") {
+                        FieldsToController += `${item[2]} =Convert.ToBoolean( model.${item[2]}),\n`;
+                    } else {
+                        FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    }
+                });
+                console.log(FieldsToController);
+
+
+                ModelArr.forEach(function (item, index, arr) {
+                    if (item[1] == "bool") {
+                        FieldsToModel += `public bool ${item[2]} { get; set; } = false;\n`;
+                    } else {
+                        FieldsToModel += `public string ${item[2]} { get; set; } = "";\n`;
+                    }
+                });
+                console.log(FieldsToModel);
+
+                var ViewRows = [];
+                var TempRows = $("#tblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FieldType").val();
+                        temp[2] = row.find("#FiledIdName").val();
+                        temp[3] = row.find("#FiledName").val();
+                        temp[4] = row.find("#IsRequired").is(":checked");
+                        temp[5] = row.find("#ReadOnly").is(":checked");
+                        temp[6] = row.find("#IsPostBack").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+                ViewRows.forEach(function (item, index, arr) {
+                    var exist = FieldsToModel.indexOf(`public string ${item[2]} { get; set; }`);
+                    if (exist == -1) {
+                        FieldsToModel += `public string ${item[2]}  { get; set; } = "";`
+                    }
+                    if (item[1] == "TextBox") {
+                        FieldsToView += `    htmlstr += TextBox20.GetHtml("${item[2]}", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.${item[2]}, "${item[3]}", "${item[3]}", ${item[6]}, ${item[5]});\n`;
+                    } else if (item[1] == "DropDown") {
+                        CommentControls = "";
+                        FieldsToView += `ListBox20.SimpleListBox ${item[2]} = new ListBox20.SimpleListBox
+{
+ControlId = "${item[2]}",
+IsPostBack = ${item[4]},
+Label = "${item[3]}",
+SelectedValue = Model.${item[2]},
+ValueList = Model.${item[2]}List,
+IdList = Model.${item[2]}IdList,
+Size = ListBox20.Size.S5,
+IsRequired = ${item[4]},
+};
+htmlstr += ListBox20.GetHtml(${item[2]});\n`;
+                        FieldsToModel += `public List<string> ${item[2]}List  { get; set; } = new List<string>();
+            public List<string> ${item[2]}IdList  { get; set; } = new List<string>();
+            `;
+
+                        ContentToControls += `    ValList = new List<string>();
+IdList = new List<string>();
+ValList.Add("Select");
+IdList.Add("Select");
+
+//${TablePath}.Read${item[2]}MasterRqst read${item[2]}MasterRqst = new ${TablePath}.Read${item[2]}MasterRqst()
+//{
+//    LoginToken = sessionIO.Token
+    
+//};
+//var read${item[2]}MasterRspn = ${TablePath}.Client.CoreClient.Read${item[2]}Master(read${item[2]}MasterRqst);
+//read${item[2]}MasterRspn.${item[2]}MasterList.ForEach(a => { ValList.Add(a.${item[2]}Name); IdList.Add(a.${item[2]}Id); });
+
+model.${item[2]}List = ValList;
+model.${item[2]}IdList = IdList;`;
+
+                    } else if (item[1] == "DateBox") {
+                        FieldsToView += `Date20.Properties ${item[2]} = new Date20.Properties
+{
+ControlId = "${item[2]}",
+Label = "${item[3]}",
+DateType = Date20.DateType.Date,
+MinDate = DateTime.Today.ToString(),
+Size = Date20.Size.S5,
+ReturnValue = Model.${item[2]},
+IsRequired = ${item[4]},
+};
+htmlstr += Date20.GetHtml(${item[2]});\n`;
+                    } else if (item[1] == "CheckBox") {
+                        FieldsToView += `htmlstr += CheckBox20.GetHtml("${item[2]}", Model.${item[2]}, "${item[3]}", ${item[6]});\n`;
+                        FieldsToModel = FieldsToModel.replace(`public string ${item[2]} { get; set; } = "";`, `public bool ${item[2]} { get; set; } = false;`);
+                        FieldsToController = FieldsToController.replace(`model.${item[2]},`, `model.${item[2]}.ToString(),`);
+                        FieldsToController = FieldsToController.replace(`"0"+model.${item[2]}`, `model.${item[2]}`);
+                    }
+                });
+                console.log(FieldsToView);
+
+
+            }
+
+            if (MModelArr.length > 0) {
+                FieldsToController2 = "";
+                FieldsToController3 = "";
+
+                var ViewRows = [];
+                var TempRows = $("#MtblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FiledIdName").val();
+                        temp[2] = row.find("#FiledName").val();
+                        temp[3] = row.find("#IsUrl").is(":checked");
+                        temp[4] = row.find("#IsPopUp").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+
+                ViewRows.forEach(function (item, index, arr) {
+                    var Url = "";
+                    var Popup = "";
+                    if (item[3]) {
+                        Url = "TargetUrl = url,";
+                    }
+                    if (item[4]) {
+                        Popup = "ShowPopup = true,";
+                    }
+
+                    FieldsToController2 += `column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.Date, Name = "${item[2]}", Field = "${item[1]}", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);`;
+
+                    FieldsToController3 += `prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.${item[1]}.ToString(), ${Url} ${Popup} };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells); `;
+
+                });
+
+
+
+            }
+
+
+
+
+            if (variable != "") {
+                var ActionName = variable.replace(/\s/g, "");
+                // var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                var RqstName = TableName.replace("Rqst", "");
+                var ClientName = TablePath.replace("Model", "Client");
+
+                ViewContent += `@using WebTheme20
+@using ${PName}.Models
+@model ${ControllerName}.${ActionName}
+
+@using (Html.BeginForm("${ActionName}", "${ControllerName}", new { _wtmid = @Request.QueryString["_wtmid"] }, FormMethod.Post))
+{
+    PageHeader20.Properties Properties = new PageHeader20.Properties
+    {
+        Pages = new List<PageHeader20.Pages>(),
+        FormName = "${variable}"
+    };
+
+    @PageHeader20.GetHtml(Properties)
+
+
+
+    string htmlstr = "";
+    Date20.Properties properties = new Date20.Properties()
+    {
+        ControlId = "SetDates",
+        DateType = Date20.DateType.DateRange,
+        ReturnValue = Model.SetDates,
+        Label = "Date",
+        Size = Date20.Size.S4,
+        ShowRangeList = true,
+
+    };
+    htmlstr += Date20.GetHtml(properties);
+
+    ${FieldsToView}
+
+
+    Filter20 filter20 = new Filter20();
+    filter20.AddFilter(new MvcHtmlString(htmlstr));
+    string filt = filter20.GetHtml().ToString();
+    @Html.Raw(filt)
+    @Html.Raw(Model.Response)
+    @Html.Raw(Model.Table)
+
+}
+`;
+                ControllerContent += ` public ActionResult ${ActionName}(${ControllerName}.${ActionName} model)
+        {
+            try
+            {
+                if (!Session4.IsSignedIn()) { return RedirectToAction("Index", "Signin"); }
+                Load${ActionName}Controls(model);
+                string start = "";
+                string end = "";
+                if (!string.IsNullOrEmpty(model.SetDates))
+                {
+                    var dat = model.SetDates.Split(';');
+                    start = dat[0];
+                    end = dat[1];
+                }
+                else
+                {
+                    start = "01-" + DateTime.Now.ToString("MMM-yyyy");
+                    end = DateTime.Now.ToString("dd-MMM-yyyy");
+                    model.SetDates = start + ";" + end;
+                }
+
+
+                TableReport20 TableReport20 = new TableReport20();
+                var GetTableInfo = TableReport20.GetTableInfo();
+                string sort = GetTableInfo.SortField;
+                string page = GetTableInfo.CurrentPage;
+                string order = "";
+                if (GetTableInfo.SortOrder == TableReport20.SortOrder.Asc)
+                {
+                    order = "asc";
+                }
+                else if (GetTableInfo.SortOrder == TableReport20.SortOrder.Desc)
+                {
+                    order = "desc";
+                }
+
+                ${TablePath}.${TableName} ${TableName} = new ${TablePath}.${TableName}()
+                    {
+                        LoginToken = Session4.UserInfo.Guid,
+                        Order = order,
+                        Sort = sort,
+                        // Todate = end,
+                        // FromDate = start,
+                        StartPage = Convert.ToInt32(page ?? "1"),
+                        RowsPerPage = 10,
+
+                        ${FieldsToController}
+                    };
+                    string json = Json4.GetJson(${TableName});
+                    var Result = ${ClientName}.CoreClient.${RqstName}(${TableName});
+                    string json2 = Json4.GetJson(Result);
+
+                    TableReport20.Column column = new TableReport20.Column();
+                ${FieldsToController2}
+
+                if (Result.Response == "OK")
+                {
+                    List<Link20> cells = new List<Link20>();
+                    Link20 cell = new Link20();
+                    Link20.Properties prop = new Link20.Properties();
+                    foreach (var item in Result.${FieldName})
+                    {
+                        string url = "/${ControllerName}/AddServiceTicketView/" + Convert.ToString(item.${MModelArr[0][2]});
+                        var row = new TableReport20.Row();
+
+
+                        ${FieldsToController3}
+
+                        TableReport20.AddRow(row);
+                    }
+                }
+
+                TableReport20.AddPageBar(Result.TotalRows, 10, int.Parse(page));
+
+                model.Table = TableReport20.GetHtml();
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+                return View(model);
+
+            }
+        }
+
+
+        public ${ControllerName}.${ActionName} Load${ActionName}Controls(${ControllerName}.${ActionName} model)
+{
+    List<string> ValList = new List<string>();
+            List<string> IdList = new List<string>();
+
+ ${ContentToControls}
+
+return model;
+}`;
+
+
+                ModelContent += ` public class ${ActionName}
+        {
+            public string Response { get; set; } = "";
+            public string SetDates { get;  set; } = "";
+            public string Table { get;  set; } = "";
+            ${FieldsToModel}
+        }
+`;
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+            // console.log(FunctionContent);
+            $('#TextAreaController').select();
+
+        }
+
+        function MultiEntry(e) {
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+
+            var FieldsToEntry1 = `PolicyName = Item.PolicyName ?? "",`;
+            var FieldsToEntry2 = `PolicyName = "",`;
+            var FieldsToColumns = `                DataTable20.Columns columns1 = new DataTable20.Columns
+                {
+                    ColumnId = "PolicyName",
+                    ColumnName = "Policy Name",
+                    ReadOnly = false,
+                    ControlType = DataTable20.ControlType.TextBox,
+                    PlaceHolder = "Policy Name",
+                };
+
+                List<DataTable20.Columns> cols = new List<DataTable20.Columns>();
+                cols.Add(columns1);
+`;
+            var FieldsToModel = `public string PolicyName { get; set; }
+            `;
+
+
+
+
+
+            ReadVariables();
+            console.log(variable);
+            ReadModalArray();
+            // console.log(ModelArr);
+            // console.log(ProcessedArr);
+            // console.log(TrimedArr);
+
+
+            if (ModelArr.length > 0) {
+                var FieldsToEntry1 = ``;
+                var FieldsToEntry2 = ``;
+                var FieldsToColumns = ``;
+                var FieldsToModel = ``;
+
+
+
+                ModelArr.forEach(function (item, index, arr) {
+                    // if (item[1] == "string") {
+                    FieldsToEntry1 += `${item[2]} = Item.${item[2]} ?? "",\n`;
+                    // } else if (item[1] == "int") {
+                    //     FieldsToEntry1 += `${item[2]} = Item.${item[2]} ,\n`;
+                    // } else if (item[1] == "DateTime") {
+                    //     FieldsToEntry1 += `${item[2]} = Item.${item[2]} ,\n`;
+                    // } else if (item[1] == "bool") {
+                    //     FieldsToEntry1 += `${item[2]} = Item.${item[2]} || false,\n`;
+                    // } else {
+                    //     FieldsToEntry1 += `${item[2]} = Item.${item[2]} ?? "",\n`;
+                    // }
+                });
+                console.log(FieldsToEntry1);
+
+                ModelArr.forEach(function (item, index, arr) {
+                    // if (item[1] == "string") {
+                    FieldsToEntry2 += `${item[2]} = "",\n`;
+                    // } else if (item[1] == "int") {
+                    //     FieldsToEntry2 += `${item[2]} = 0,\n`;
+                    // } else if (item[1] == "DateTime") {
+                    //     FieldsToEntry2 += `${item[2]} = "",\n`;
+                    // } else if (item[1] == "bool") {
+                    //     FieldsToEntry2 += `${item[2]} =  false,\n`;
+                    // } else {
+                    //     FieldsToEntry2 += `${item[2]} =  "",\n`;
+                    // }
+                });
+                console.log(FieldsToEntry2);
+
+
+
+
+                var ViewRows = [];
+                var TempRows = $("#tblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FieldType").val();
+                        temp[2] = row.find("#FiledIdName").val();
+                        temp[3] = row.find("#FiledName").val();
+                        temp[4] = row.find("#IsRequired").is(":checked");
+                        temp[5] = row.find("#ReadOnly").is(":checked");
+                        temp[6] = row.find("#IsPostBack").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+                ViewRows.forEach(function (item, index, arr) {
+                    var BoxType = "";
+                    var ListItems = "";
+                    if (item[1] == "TextBox") { BoxType = "TextBox"; }
+                    if (item[1] == "DateBox") { BoxType = "Date"; }
+                    if (item[1] == "CheckBox") { BoxType = "CheckBox"; }
+
+                    if (item[1] == "DropDown") {
+                        BoxType = "ListBox";
+                        FieldsToColumns += `                var ${item[2]}List = new DataTable20.ListItems();
+                var ${item[2]}Index = 0;
+                model.${item[2]}List.ForEach(c => { ${item[2]}List.Values.Add(c); ${item[2]}List.Ids.Add( ${item[2]}Index++.ToString()); });
+`;
+                        ListItems = `ListItems = ${item[2]}List,`;
+                    }
+
+
+                    FieldsToColumns += `                DataTable20.Columns ${item[2]} = new DataTable20.Columns
+                {
+                    ColumnId = "${item[2]}",
+                    ColumnName = "${item[3]}",
+                    ReadOnly = ${item[5]},
+                    ControlType = DataTable20.ControlType.${BoxType},
+                    PlaceHolder = "${item[3]}",
+                    IsRequired = ${item[4]},
+                    EnablePostBack = ${item[6]},
+                    ${ListItems}
+                };
+                cols.Add(${item[2]});
+`;
+
+
+                });
+
+
+                ModelArr.forEach(function (item, index, arr) {
+                    // if (item[1] == "string") {
+                    FieldsToModel += `public string ${item[2]} { get; set; } = "";\n`;
+                    // } else if (item[1] == "int") {
+                    //     FieldsToModel += `public int ${item[2]} { get; set; } = 0;\n`;
+                    // } else if (item[1] == "DateTime") {
+                    //     FieldsToModel += `public DateTime ${item[2]} { get; set; } \n`;
+                    // } else if (item[1] == "bool") {
+                    //     FieldsToModel += `public bool ${item[2]} { get; set; } = false;\n`;
+                    // } else {
+                    //     FieldsToModel += `public string ${item[2]} { get; set; } = "";\n`;
+                    // }
+                });
+                console.log(FieldsToModel);
+
+
+
+            }
+
+
+            if (variable != "") {
+                var ActionName = variable.replace(/\s/g, "");
+                // var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                var RqstName = TableName.replace("Rqst", "");
+                var ClientName = TablePath.replace("Model", "Client");
+                ViewContent += `htmlstr += ViewBag.MultiEntry;
+`;
+                ControllerContent += `        public ${ControllerName}.${ActionName} Load${ActionName}MultiEntry(${ControllerName}.${ActionName} model)
+        {
+
+            try
+            {
+
+
+                List<object> Values = new List<object>();
+                if (model.multiEntries != null)
+                {
+                    foreach (var Item in model.multiEntries)
+                    {
+                        ${ControllerName}.${ActionName}.MultiEntry rows = new ${ControllerName}.${ActionName}.MultiEntry
+                        {
+                            ${FieldsToEntry1}
+
+                        };
+
+                        Values.Add(rows);
+                    }
+
+                    
+                }
+                else
+                {
+                    ${ControllerName}.${ActionName}.MultiEntry rows = new ${ControllerName}.${ActionName}.MultiEntry
+                    {
+                        ${FieldsToEntry2}
+                        
+                    };
+
+                    Values.Add(rows);
+
+                }
+                List<DataTable20.Columns> cols = new List<DataTable20.Columns>();
+                ${FieldsToColumns}
+
+
+
+                DataTable20.Properties prop = new DataTable20.Properties
+                {
+                    Columns = cols,
+                    RowValueList = Values,
+                    ControlId = "multiEntries",
+                    ModelId = "multiEntries",
+                    IsView = false,
+                };
+                ViewBag.MultiEntry = DataTable20.GetHtml(prop).ToString();
+
+
+                return model;
+            }
+            catch (Exception ex)
+            {
+                model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+                return model;
+            }
+
+        }
+`;
+                ModelContent += `public List<MultiEntry> multiEntries { get; set; }
+
+public class MultiEntry
+{
+    ${FieldsToModel}
+
+}
+`;
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+            // console.log(FunctionContent);
+            $('#TextAreaController').select();
+        }
+
+        function ViewPage(e) {
+            var ViewContent = "";
+            var ControllerContent = "";
+            var ModelContent = "";
+            var CommentControls = "";
+
+            var FieldsToView = `    htmlstr += TextBox20.GetHtml("ContactPerson", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.ContactPerson, "Contact Person", "Contact Person", false, true);
+
+ListBox20.SimpleListBox ServiceCenter = new ListBox20.SimpleListBox
+{
+    ControlId = "ServiceCenter",
+    IsPostBack = false,
+    Label = "Service Center",
+    SelectedValue = Model.ServiceCenter,
+    ValueList = Model.ServiceCenterList,
+    Size = ListBox20.Size.S5,
+    IsRequired = true,
+};
+htmlstr += ListBox20.GetHtml(ServiceCenter);
+
+htmlstr += RadioBox20.GetHtml("Customer", "Customer", Model.Customer, new List<string> { "New Customer", "Existing Customer" }, false, false);
+
+htmlstr += CheckBox20.GetHtml("IsWarranty", Model.IsWarranty, "Is Warranty", false);
+
+
+Date20.Properties WarrantyDate = new Date20.Properties
+{
+    ControlId = "WarrantyDate",
+    Label = "Warranty Date",
+    DateType = Date20.DateType.Date,
+    MinDate = DateTime.Today.ToString(),
+    Size = Date20.Size.S5,
+    ReturnValue = Model.WarrantyDate,
+};
+
+
+htmlstr += Date20.GetHtml(WarrantyDate);`;
+
+            var FieldsToController = ``;
+
+
+            var FieldsToModel = `            public string Customer { get; set; } = "";
+
+
+
+//For dropdown
+public string ServiceCenter { get; set; } = "";
+public List<string> ServiceCenterList { get; set; } = new List<string>();
+`;
+
+            var ContentToControls = `    List<string> ValList = new List<string>();
+    List<string> IdList = new List<string>();
+    ValList.Add("Select");
+    IdList.Add("Select");
+
+    //SCS.Msg4.Model.ReadGroupMasterRqst readGroupMasterRqst = new SCS.Msg4.Model.ReadGroupMasterRqst()
+                //{
+                //    LoginToken = new SessionIO().Token,
+                    
+                //};
+                //SCS.Msg4.Model.ReadGroupMasterRspn readGroupMasterRspn = SCS.Msg4.Client.CoreClient.ReadGroupMaster(readGroupMasterRqst);
+                //readGroupMasterRspn.GroupMasterList.ForEach(a => { ValList.Add(a.GroupName); IdList.Add(a.GroupId); });
+
+    // model.ServiceCenterList = ValList;
+    // model.ServiceCenterIdList = IdList;
+`;
+
+            var RFieldsToController = ``;
+
+            var FieldsToRead = ``;
+
+            var TableClientPath = TablePath.replace("Model", "Client");
+
+            if (ModelArr.length > 0) {
+                ModelArr.forEach(function (item, index, arr) {
+                    // if (item[1] == "string") {
+                    FieldsToRead += `model.${item[2]} = Res.${TableName}.${item[2]}.ToString();\n`;
+                    // } 
+                    // else if (item[1] == "int") {
+                    //     FieldsToRead += `${item[2]} =Convert.ToInt32( "0"+model.${item[2]}),\n`;
+                    // } else if (item[1] == "DateTime") {
+                    //     FieldsToRead += `${item[2]} =Convert.ToDateTime( model.${item[2]}),\n`;
+                    // } else if (item[1] == "bool") {
+                    //     FieldsToRead += `${item[2]} =Convert.ToBoolean( model.${item[2]}),\n`;
+                    // } else {
+                    //     FieldsToRead += `${item[2]} = model.${item[2]},\n`;
+                    // }
+                });
+                console.log(FieldsToRead);
+            }
+
+
+
+            if (MModelArr.length > 0) {
+
+                FieldsToController = "";
+                FieldsToModel = "";
+                FieldsToView = "";
+                CommentControls = "//";
+                ContentToControls = "";
+                MModelArr.forEach(function (item, index, arr) {
+                    // if (item[1] == "string") {
+                    //     FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    // } else if (item[1] == "int") {
+                    //     FieldsToController += `${item[2]} =Convert.ToInt32( "0"+model.${item[2]}),\n`;
+                    // } else if (item[1] == "DateTime") {
+                    //     FieldsToController += `${item[2]} =Convert.ToDateTime( model.${item[2]}),\n`;
+                    // } else if (item[1] == "bool") {
+                    //     FieldsToController += `${item[2]} =Convert.ToBoolean( model.${item[2]}),\n`;
+                    // } else {
+                    //     FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                    // }
+                    if (item[2] == "LoginToken" || item[2] == "Token") {
+                        FieldsToController += `${item[2]} = new SessionIO().Token,\n`;
+                    } else {
+                        if (index == 0 || index == 1) {
+                            FieldsToController += `${item[2]} = Id,\n`;
+                        } else {
+                            FieldsToController += `${item[2]} = model.${item[2]},\n`;
+                        }
+                    }
+
+                });
+                console.log(FieldsToController);
+
+
+                ModelArr.forEach(function (item, index, arr) {
+                    if (item[1] == "bool") {
+                        FieldsToModel += `public bool ${item[2]} { get; set; } = false;\n`;
+                    } else {
+                        FieldsToModel += `public string ${item[2]} { get; set; } = "";\n`;
+                    }
+                });
+                console.log(FieldsToModel);
+
+                if (RModelArr.length > 0) {
+                    RModelArr.forEach(function (item, index, arr) {
+                        if (item[2] == "LoginToken" || item[2] == "Token") {
+                            RFieldsToController += `${item[2]} = new SessionIO().Token,\n`;
+                        } else {
+                            if (item[1] == "string") {
+                                RFieldsToController += `${item[2]} = model.${item[2]},\n`;
+                            } else if (item[1] == "int") {
+                                RFieldsToController += `${item[2]} =Convert.ToInt32( "0"+model.${item[2]}),\n`;
+                            } else if (item[1] == "DateTime") {
+                                RFieldsToController += `${item[2]} =Convert.ToDateTime( model.${item[2]}),\n`;
+                            } else if (item[1] == "bool") {
+                                RFieldsToController += `${item[2]} =Convert.ToBoolean( model.${item[2]}),\n`;
+                            } else {
+                                RFieldsToController += `${item[2]} = model.${item[2]},\n`;
+                            }
+                        }
+                        var exist = FieldsToModel.indexOf(`public string ${item[2]} { get; set; }`);
+                        if (exist == -1) {
+                            FieldsToModel += `public string ${item[2]}  { get; set; } = "";`
+                        }
+
+
+                    });
+                    console.log(RFieldsToController);
+                }
+
+
+                var ViewRows = [];
+                var TempRows = $("#tblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FieldType").val();
+                        temp[2] = row.find("#FiledIdName").val();
+                        temp[3] = row.find("#FiledName").val();
+                        temp[4] = row.find("#IsRequired").is(":checked");
+                        temp[5] = row.find("#ReadOnly").is(":checked");
+                        temp[6] = row.find("#IsPostBack").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+                ViewRows.forEach(function (item, index, arr) {
+                    var exist = FieldsToModel.indexOf(`public string ${item[2]} { get; set; }`);
+                    if (exist == -1) {
+                        FieldsToModel += `public string ${item[2]}  { get; set; } = "";`
+                    }
+                    if (item[1] == "TextBox") {
+                        FieldsToView += `    htmlstr += TextBox20.GetHtml("${item[2]}", TextBox20.Size.S5, TextBox20.TextBoxType.Text, Model.${item[2]}, "${item[3]}", "${item[3]}", ${item[6]}, ${item[5]});\n`;
+                    } else if (item[1] == "DropDown") {
+                        CommentControls = "";
+                        FieldsToView += `ListBox20.SimpleListBox ${item[2]} = new ListBox20.SimpleListBox
+{
+    ControlId = "${item[2]}",
+    IsPostBack = ${item[4]},
+    Label = "${item[3]}",
+    SelectedValue = Model.${item[2]},
+    ValueList = Model.${item[2]}List,
+    IdList = Model.${item[2]}IdList,
+    Size = ListBox20.Size.S5,
+    IsRequired = ${item[4]},
+};
+htmlstr += ListBox20.GetHtml(${item[2]});\n`;
+                        FieldsToModel += `public List<string> ${item[2]}List  { get; set; } = new List<string>();
+                            public List<string> ${item[2]}IdList  { get; set; } = new List<string>();
+                            `;
+
+                        ContentToControls += `    ValList = new List<string>();
+    IdList = new List<string>();
+    ValList.Add("Select");
+    IdList.Add("Select");
+
+    //${TablePath}.Read${item[2]}MasterRqst read${item[2]}MasterRqst = new ${TablePath}.Read${item[2]}MasterRqst()
+                //{
+                //    LoginToken = new SessionIO().Token,
+                    
+                //};
+                //var read${item[2]}MasterRspn = ${TableClientPath}.CoreClient.Read${item[2]}Master(read${item[2]}MasterRqst);
+                //read${item[2]}MasterRspn.${item[2]}MasterList.ForEach(a => { ValList.Add(a.${item[2]}Name); IdList.Add(a.${item[2]}Id); });
+
+    model.${item[2]}List = ValList;
+    model.${item[2]}IdList = IdList;`;
+
+                    } else if (item[1] == "DateBox") {
+                        FieldsToView += `Date20.Properties ${item[2]} = new Date20.Properties
+{
+    ControlId = "${item[2]}",
+    Label = "${item[3]}",
+    DateType = Date20.DateType.Date,
+    MinDate = DateTime.Today.ToString(),
+    Size = Date20.Size.S5,
+    ReturnValue = Model.${item[2]},
+    IsRequired = ${item[4]},
+};
+htmlstr += Date20.GetHtml(${item[2]});\n`;
+                    } else if (item[1] == "CheckBox") {
+                        FieldsToView += `htmlstr += CheckBox20.GetHtml("${item[2]}", Model.${item[2]}, "${item[3]}", ${item[6]});\n`;
+                        FieldsToModel = FieldsToModel.replace(`public string ${item[2]} { get; set; } = "";`, `public bool ${item[2]} { get; set; } = false;`);
+                        FieldsToController = FieldsToController.replace(`model.${item[2]},`, `model.${item[2]}.ToString(),`);
+                        FieldsToController = FieldsToController.replace(`"0"+model.${item[2]}`, `model.${item[2]}`);
+                        FieldsToRead = FieldsToRead.replace(`Res.${TableName}.${item[2]}.ToString()`, `Convert.ToBoolean( Res.${TableName}.${item[2]})`);
+                        RFieldsToController = RFieldsToController.replace(`model.${item[2]},`, `model.${item[2]}.ToString(),`);
+                        RFieldsToController = RFieldsToController.replace(`"0"+model.${item[2]}`, `model.${item[2]}`);
+                    }
+                });
+                console.log(FieldsToView);
+
+                FieldsToView +=`\n \n //Hidden Fields just for passing data \n`;
+                ModelArr.forEach(function (item, index, arr) {
+                    var exist1 = false;
+                    RModelArr.forEach(function (item2, index2, arr2) {
+                        if(item[2]==item2[2]){
+                            exist1=true;
+                        }
+                    });
+                    var exist2 = false;
+                    ViewRows.forEach(function (item1, index1, arr1) {
+                        if(item[2]==item1[2]){
+                            exist2=true;
+                        }
+                    });
+                    if(exist2==false&& exist1==true) {
+                        FieldsToView +=`<input type="hidden" name="${item[2]}" id="${item[2]}" value="@Model.${item[2]}" />\n`;
+                    }
+
+                });
+
+
+            }
+
+
+
+            if (MModelArr.length > 0) {
+                FieldsToController2 = "";
+                FieldsToController3 = "";
+
+                var ViewRows = [];
+                var TempRows = $("#MtblLocations").find("tr").each(function (index) {
+                    if (index != 0) {
+                        var temp = [];
+                        var row = $(this);
+                        temp[0] = row.find("td[name='Sno']").text();
+                        temp[1] = row.find("#FiledIdName").val();
+                        temp[2] = row.find("#FiledName").val();
+                        temp[3] = row.find("#IsUrl").is(":checked");
+                        temp[4] = row.find("#IsPopUp").is(":checked");
+                        ViewRows.push(temp);
+                    }
+                });
+                console.log(ViewRows);
+
+                ViewRows.forEach(function (item, index, arr) {
+                    var Url = "";
+                    var Popup = "";
+                    if (item[3]) {
+                        Url = "TargetUrl = url,";
+                    }
+                    if (item[4]) {
+                        Popup = "ShowPopup = true,";
+                    }
+
+                    FieldsToController2 += `column = new TableReport20.Column()
+                { Sort = sort, ColumnType = TableReport20.ColumnType.Date, Name = "${item[2]}", Field = "${item[1]}", Order = order, TextAlign = TableReport20.TextAlign.Left };
+                TableReport20.AddColumn(column);`;
+
+                    FieldsToController3 += `prop = new Link20.Properties { Icon = Icon20.IconCollection.None, Name = item.${item[1]}.ToString(), ${Url} ${Popup} };
+                        cell = new Link20();
+                        cell.AddUrl(prop);
+                        cells = new List<Link20>();
+                        cells.Add(cell);
+                        row.cells.Add(cells); `;
+
+                });
+
+
+
+            }
+
+
+            ReadVariables();
+            console.log(variable);
+            ReadModalArray();
+            console.log(ModelArr);
+            console.log(ProcessedArr);
+
+
+
+
+            if (variable != "") {
+                var ActionName = variable.replace(/\s/g, "");
+                // var faccess=Item.toLowerCase().replace(/\s/g, "_");
+                var RqstName = FieldName.replace("Rqst", "");
+                var ClientName = TablePath.replace("Model", "Client");
+                var MRqstName = RFieldName.replace("Rqst", "");
+                var MClientName = TablePath.replace("Model", "Client");
+                ViewContent += `@using WebTheme20
+@using ${PName}.Models
+@model ${ControllerName}.${ActionName}
+@{
+    Layout = "~/Views/Shared/EntryLayout.cshtml";
+}
+
+@using (Html.BeginForm("${ActionName}View", "${ControllerName}", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.Raw(Model.Response);
+
+    string htmlstr = "";
+
+
+    ${FieldsToView}
+
+
+
+
+
+    Form20 form = new Form20();
+    form.CardTitle = ViewBag.pageheader;
+    form.AddButton("btnsubmit", "Update", "Update");
+    form.ControlId = "${ActionName}";
+    form.Orientation = Form20.TabOrientation.Horizontal;
+    form.AddCard(htmlstr, 1);
+    form.CardTitle = "${variable} View";
+    form.AddTab(1, "General");
+
+
+
+
+    //For second tab
+
+    // string htmlstr1 = "";
+
+
+
+    // form.AddButton("btnsubmit", "Update", "Update");
+    // form.AddCard(htmlstr1, 2);
+    // form.AddTab(2, "Custom");
+
+
+
+
+    @Html.Raw(form.GetHtml())
+
+
+}
+<script>
+        //for popup close and reload manage page on sucessfull update
+        var response ="@Model.Response";
+        if (response == "OK") {
+            setTimeout(function () {
+
+                window.opener.location.reload(true);
+                window.close(); }, 2000);
+
+        }
+<\/script>
+<script>
+    // For refill on a successfull submit, key = ctrl+shift+F
+    $(document).on('keypress', function (e) {
+        if (!e) e = window.event;
+        if (e.shiftKey && e.ctrlKey && e.key == "\u0006") {
+            window.location.href = window.location.href.replace(/[\?#].*|$/, "?Fill=Yes");
+        }
+    });
+
+<\/script>`;
+                ControllerContent += `#region ${variable}
+
+
+
+[HttpGet]
+public ActionResult ${ActionName}View(string Fill,string Id)
+{
+    try
+    {
+        if (!CS4.Net.Library.Session4.IsSignedIn()) { return RedirectToAction("Index", "Signin"); }
+        ${ControllerName}.${ActionName} model = new ${ControllerName}.${ActionName}();
+        if (Fill == "Yes" && Session["Model"] != null) model = Json4.GetType<${ControllerName}.${ActionName}>(Session["Model"].ToString());
+        ${CommentControls}Load${ActionName}Controls(model);
+        //Id=MainCode.Decrypt(Id);
+        if(!string.IsNullOrEmpty(Id)){
+
+            ${TablePath}.${FieldName} ${FieldName} = new ${TablePath}.${FieldName}()
+                    {
+                        ${FieldsToController}
+                    };
+                    string json = Json4.GetJson(${FieldName});
+                    var Res = ${ClientName}.CoreClient.${RqstName}(${FieldName});
+                    string json2 = Json4.GetJson(Res);
+
+                    if (Res.Response == "OK") {
+                        ${FieldsToRead}
+                    }
+                    else model.Response = AlertBox20.GetHtml(WebTheme20.AlertBox20.AlertType.Error, Res.Response).ToString();
+
+
+        }
+
+        return View(model);
+    }
+    catch (Exception ex)
+    {
+        ${ControllerName}.${ActionName} model = new ${ControllerName}.${ActionName}();
+        model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+        return View(model);
+    }
+}
+
+
+[HttpPost]
+public ActionResult ${ActionName}View(${ControllerName}.${ActionName} model, string btnsubmit)
+{
+    try
+    {
+        if (!CS4.Net.Library.Session4.IsSignedIn()) { return RedirectToAction("Index", "Signin"); }
+        ${CommentControls}Load${ActionName}Controls(model);
+        if (btnsubmit == "Update")
+        {
+
+            ${TablePath}.${RFieldName} ${RFieldName} = new ${TablePath}.${RFieldName}()
+                    {
+                        ${RFieldsToController}
+                    };
+                    string json = Json4.GetJson(${RFieldName});
+                    var Res = ${MClientName}.CoreClient.${MRqstName}(${RFieldName});
+                    string json2 = Json4.GetJson(Res);
+
+
+                    if (Res.Response == "OK") model.Response = AlertBox20.GetHtml(WebTheme20.AlertBox20.AlertType.Success, "${variable} updated!").ToString();                     
+                    else model.Response = AlertBox20.GetHtml(WebTheme20.AlertBox20.AlertType.Error, Res.Response).ToString();
+
+
+            if (model.Response == "OK")
+            {
+                Session["Model"] = Json4.GetJson(model);
+                model = new ${ControllerName}.${ActionName}();
+
+            }
+        }
+        return View(model);
+    }
+    catch (Exception ex)
+    {
+        model.Response = AlertBox20.GetHtml(AlertBox20.AlertType.Error, "Catch : " + ex.Message).ToString();
+        return View(model);
+    }
+}
+
+
+
+
+
+public ${ControllerName}.${ActionName} Load${ActionName}Controls(${ControllerName}.${ActionName} model)
+{
+    List<string> ValList = new List<string>();
+            List<string> IdList = new List<string>();
+
+ ${ContentToControls}
+
+return model;
+}
+
+
+#endregion`;
+                ModelContent += `#region ${variable}
+                public class ${ActionName}
+        {
+            public string Response { get; set; } = "";
+            ${FieldsToModel}
+
+        }
+        #endregion`;
+            }
+            $('#TextAreaView').val(ViewContent);
+            $('#TextAreaController').val(ControllerContent);
+            $('#TextAreaModel').val(ModelContent);
+            // console.log(FunctionContent);
+            $('#TextAreaController').select();
+
+        }
+
+    </script>
+
+</body>
+
+</html>

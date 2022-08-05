@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sathya DI</title>
+
+</head>
+
+<body>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <style>
+        .container-fluid {
+            width: 100%;
+            height: 100%;
+            /* display: flex;
+            align-items: center;
+            justify-content: center; */
+
+        }
+
+        .OuterMenu {
+            margin-top: 10px;
+        }
+
+        .card {
+            /* width: 30%; */
+            height: 100%;
+            background-color: rgb(228, 228, 228);
+
+        }
+
+        .row {
+            padding: 10px;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .alert {
+            width: fit-content;
+            float: right;
+
+
+        }
+
+        .card:hover {
+            box-shadow: 5px 5px 10px gray;
+
+        }
+
+        .ButtonBack {
+            margin-top: 5px;
+        }
+    </style>
+
+
+    <div class="container-fluid">
+        <a href="./Index.html">
+            <button type="button" class="btn btn-primary ButtonBack">Go Back</button></a>
+        <div class="OuterMenu">
+
+            <textarea class="form-control form-input" name="TextAreaInput" id="TextAreaInput" rows="5"
+                placeholder="Paste function names here ..."></textarea>
+
+            <div class="row">
+                <div class="col"><input type="text" id="IoName" name="IoName" placeholder="Enter file name"
+                        class="form-control input"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <button class="btn btn-primary" type="button" style="float: right;" id="BtnSubmit">Submit</button>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaWebQuery" onfocus="Copy(this)"
+                        id="TextAreaWebQuery" placeholder="Paste In WebQuery" rows="7"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaRqst" onfocus="Copy(this)" id="TextAreaRqst"
+                        placeholder="Paste In Rqst" rows="7"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaRspn" onfocus="Copy(this)" id="TextAreaRspn"
+                        placeholder="Paste In Rspn" rows="7"></textarea>
+                </div>
+                <div class="col">
+                    <textarea class="form-control form-input" name="TextAreaClient" onfocus="Copy(this)"
+                        id="TextAreaClient" placeholder="Paste In Client" rows="7"></textarea>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+    <textarea id="linkToCopy" value="TEXT TO COPY" style="position: absolute; z-index: -999; opacity: 0;"></textarea>
+
+
+
+    <script>
+
+        function Copy(e) {
+            // var Content= e.target.value;
+            if (e.value != "") {
+                e.select();
+                document.execCommand("copy");
+                var alert = `<div class="alert alert-success alert-dismissible fade show" role="alert"  " >
+<strong>`+ e.id + ` Box Coppied.</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>`;
+
+                $('body').append(alert);
+                $(".alert").delay(3000).slideUp(200, function () {
+                    $(this).alert('close');
+                });
+
+            }
+        }
+
+        $(function () {
+            $("#TextAreaInput").focus();
+            $("#IoName").val(localStorage.getItem('IoName'));
+            $("#BtnSubmit").on('click', function () {
+                ProcessData();
+            });
+                    //For changing names into entry rows
+        $("#TextAreaInput").on('keyup', function (e) {
+            if (e.ctrlKey && e.key === 'Enter' || e.ctrlKey && e.keyCode === 13) {
+                // Do something
+                // console.log(e);
+                ProcessData();
+            }
+        });
+
+        });
+
+
+        function ProcessData(){
+            var variables = $("#TextAreaInput").val().split(/\r?\n/);
+                variables.forEach(function (item, index, arr) {
+                    arr[index] = (item.replace("  ", " ")).trim();
+                });
+                // variables=variables.split()
+                console.log(variables);
+                var WebQueryContent = "";
+                var RqstContent = "";
+                var RspnContent = "";
+                var ClientContent = "";
+
+                var IoName = $("#IoName").val();
+                if (IoName == "") {
+                    if (variables.length == 1 && variables[0] == "") {
+                        WebQueryContent += `if (rqst.ReadUserInfoRqst != null) rspn.ReadUserInfoRspn = UserIO.ReadUserInfo(rqst.ReadUserInfoRqst);\n`;
+                        RqstContent += `public ReadUserInfoRqst ReadUserInfoRqst;\n`;
+                        RspnContent += `public ReadUserInfoRspn ReadUserInfoRspn;\n`;
+                        ClientContent += `public static Model.ReadUserInfoRspn ReadUserInfo(ReadUserInfoRqst rqst)
+        {
+            var webRqst = new Model.ExecuteWebQueryRqst() { ReadUserInfoRqst = rqst };
+            return RestClient.ExecuteWebQuery(webRqst).ReadUserInfoRspn;
+        }\n`;
+                    } else {
+                        variables.forEach(Item => {
+                            var val = Item.replace(/\s/g, "");
+                            WebQueryContent += `if (rqst.${val}Rqst != null) rspn.${val}Rspn = UserIO.${val}(rqst.${val}Rqst);\n`;
+                            RqstContent += `public ${val}Rqst ${val}Rqst;\n`;
+                            RspnContent += `public ${val}Rspn ${val}Rspn;\n`;
+                            ClientContent += `public static Model.${val}Rspn ${val}(${val}Rqst rqst)
+        {
+            var webRqst = new Model.ExecuteWebQueryRqst() { ${val}Rqst = rqst };
+            return RestClient.ExecuteWebQuery(webRqst).${val}Rspn;
+        }\n`;
+                        });
+                    }
+
+                } else {
+
+                    localStorage.setItem('IoName',IoName);
+                    if (variables.length == 1 && variables[0] == "") {
+                        WebQueryContent += `if (rqst.ReadUserInfoRqst != null) rspn.ReadUserInfoRspn = ${IoName}.ReadUserInfo(rqst.ReadUserInfoRqst);\n`;
+                        RqstContent += `public ReadUserInfoRqst ReadUserInfoRqst;\n`;
+                        RspnContent += `public ReadUserInfoRspn ReadUserInfoRspn;\n`;
+                        ClientContent += `public static Model.ReadUserInfoRspn ReadUserInfo(ReadUserInfoRqst rqst)
+        {
+            var webRqst = new Model.ExecuteWebQueryRqst() { ReadUserInfoRqst = rqst };
+            return RestClient.ExecuteWebQuery(webRqst).ReadUserInfoRspn;
+        }\n`;
+                    } else {
+                        variables.forEach(Item => {
+                            var val = Item.replace(/\s/g, "");
+                            WebQueryContent += `if (rqst.${val}Rqst != null) rspn.${val}Rspn = ${IoName}.${val}(rqst.${val}Rqst);\n`;
+                            RqstContent += `public ${val}Rqst ${val}Rqst;\n`;
+                            RspnContent += `public ${val}Rspn ${val}Rspn;\n`;
+                            ClientContent += `public static Model.${val}Rspn ${val}(${val}Rqst rqst)
+        {
+            var webRqst = new Model.ExecuteWebQueryRqst() { ${val}Rqst = rqst };
+            return RestClient.ExecuteWebQuery(webRqst).${val}Rspn;
+        }\n`;
+                        });
+                    }
+                }
+                $('#TextAreaWebQuery').val(WebQueryContent);
+                $('#TextAreaRqst').val(RqstContent);
+                $('#TextAreaRspn').val(RspnContent);
+                $('#TextAreaClient').val(ClientContent);
+
+                $('#TextAreaWebQuery').select();
+
+        }
+
+
+
+
+    </script>
+
+
+
+
+</body>
+
+</html>
