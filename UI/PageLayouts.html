@@ -556,7 +556,7 @@
             var count = (temp.match(/namespace/g) || []).length;
             console.log(count);
             var tbl2 = 1;
-            if (count = 3) {
+            if (count == 3) {
                 tbl2 = 0;
             }
 
@@ -646,7 +646,7 @@
                     this.splice(to, 0, this.splice(from, 1)[0]);
                     return this;
                 };
-                if (count = 3) {
+                if (count == 3) {
                     temp.move(1, 2);
                 }
                 console.log(temp);
