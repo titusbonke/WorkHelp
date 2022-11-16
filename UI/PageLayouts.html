@@ -1525,7 +1525,7 @@ htmlstr += Date20.GetHtml(${item[2]});\n`;
                     Link20.Properties prop = new Link20.Properties();
                     foreach (var item in Result.${FieldName})
                     {
-                        string url = "/${ControllerName}/AddServiceTicketView/" + Convert.ToString(item.${MModelArr[0][2]});
+                        string url = "/${ControllerName}/AddServiceTicketView/" + Convert.ToString(item.id);
                         var row = new TableReport20.Row();
 
 
