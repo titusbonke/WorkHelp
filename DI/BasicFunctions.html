@@ -313,7 +313,7 @@
             var InfoToDb = "";
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] != "int") {
-                    InfoToDb += ModelArr[index][2] + " = rqst." + item[2] + ",\n";
+                    InfoToDb += "Info."+ModelArr[index][2] + " = rqst." + item[2] + ";\n";
                 }
             });
             console.log(InfoToDb);
@@ -392,10 +392,9 @@
                     int UserId = rqst.UserId;
                     var grp = ctx.${TableName}.Where(c => c.group_name == GroupName && c.user_id == UserId).FirstOrDefault();
                     if (grp != null) return "${Item} already exist";
-                    var Info = new Entity.${TableName}()
-                    {
-                        ${InfoToDb}
-                    };
+                    var Info = new Entity.${TableName}();
+                    ${InfoToDb}
+                    
                     ctx.${TableName}.Add(Info);
                     ctx.SaveChanges();
                 }
@@ -610,11 +609,11 @@
             var DbtoClass = "";
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] == "string") {
-                    DbtoClass += `${item[2]} = dls.${ModelArr[index][2]},\n`;
+                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]};\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
-                    DbtoClass += `${item[2]} = (int)dls.${ModelArr[index][2]},\n`;
+                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]}.GetValueOrDefault();\n`;
                 } else if (item[1] == "Nullable<System.DateTime>") {
-                    DbtoClass += `${item[2]} = (DateTime)dls.${ModelArr[index][2]},\n`;
+                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]}.GetValueOrDefault();\n`;
                 }
             });
             console.log(DbtoClass);
@@ -657,10 +656,8 @@
                 {
                     var dls = ctx.${TableName}.Where(c => c.group_guid == rqst.GroupGuid && c.account_id == rspn1.AccountId).FirstOrDefault();
                     if (dls == null) return new Read${item}Rspn { Response = "Invalid ${Item} Details" };
-                    var Info = new ${item}()
-                    {
-                        ${DbtoClass}
-                    };
+                    var Info = new ${item}();
+                    ${DbtoClass}
                     rspn.${item} = Info;
                     rspn.Response = "OK";
                 }
