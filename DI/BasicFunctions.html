@@ -472,9 +472,9 @@
                 if (item[1] == "string") {
                     DbtoClass += `${item[2]} = doc.${ModelArr[index][2]},\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
-                    DbtoClass += `${item[2]} = (int)doc.${ModelArr[index][2]},\n`;
+                    DbtoClass += `${item[2]} = doc.${ModelArr[index][2]} ?? 0,\n`;
                 } else if (item[1] == "Nullable<System.DateTime>") {
-                    DbtoClass += `${item[2]} = (DateTime)doc.${ModelArr[index][2]},\n`;
+                    DbtoClass += `${item[2]} = doc.${ModelArr[index][2]} ?? DateTime.Now,\n`;
                 }
             });
             console.log(DbtoClass);
@@ -828,7 +828,7 @@
                 if (item[1] == "string") {
                     DbtoClass += `${item[2]} = doc.${ModelArr[index][2]},\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
-                    DbtoClass += `${item[2]} = (int)doc.${ModelArr[index][2]},\n`;
+                    DbtoClass += `${item[2]} = doc.${ModelArr[index][2]} ??0,\n`;
                 }
             });
             console.log(DbtoClass);
