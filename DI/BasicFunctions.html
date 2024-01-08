@@ -773,7 +773,7 @@
         {
             try
             {
-                var rspn1 = Validate${item}( rqst);
+                var rspn1 = Validate${item}( rqst,true);
                 if (rspn1 != "OK") return rspn1;
 
                 using (var ctx = new Entity.${EName}())
@@ -835,6 +835,9 @@
 
             var Filters = "";
             TrimedArr.forEach(function (item, index, arr) {
+                if (item[1] == "string" ) {
+                    Filters += `if (rqst.${item[2]} != "") docs = docs.Where(c => c.${item[2]}.Contains( rqst.${item[2]}));\n`;
+                }
                 if (item[1] == "Nullable<int>" || item[1] == "int") {
                     Filters += `if (rqst.${item[2]} != 0) docs = docs.Where(c => c.${item[2]} == rqst.${item[2]});\n`;
                 }
