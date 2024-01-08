@@ -778,9 +778,7 @@
 
                 using (var ctx = new Entity.${EName}())
                 {
-                    string GroupName = rqst.GroupName;
-                    int UserId = rqst.UserId;
-                    var dls = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.user_id == UserId).FirstOrDefault();
+                    var dls = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.user_id == rqst.UserId).FirstOrDefault();
                     ${InfoToDb}
                     ctx.SaveChanges();
                 }
