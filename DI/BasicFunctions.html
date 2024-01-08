@@ -313,7 +313,7 @@
             var InfoToDb = "";
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] != "int") {
-                    InfoToDb += "Info."+ModelArr[index][2] + " = rqst." + item[2] + ";\n";
+                    InfoToDb += ModelArr[index][2] + " = rqst." + item[2] + ",\n";
                 }
             });
             console.log(InfoToDb);
@@ -334,9 +334,9 @@
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] == "string") {
                     RqstFields += `public string ${item[2]} { get; set; } = "";\n`;
-                } else if (item[1] == "Nullable<int>") {
-                    RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<int>"|| item[1] == "int") {
+                    if(index!=0)RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
+                } else if (item[1] == "Nullable<System.DateTime>"|| item[1] == "DateTime") {
                     RqstFields += `public DateTime ${item[2]} { get; set; }\n`;
                 }
             });
@@ -346,9 +346,9 @@
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] == "string") {
                     RspnFields += `public string ${item[2]} { get; set; }\n`;
-                } else if (item[1] == "Nullable<int>") {
+                } else if (item[1] == "Nullable<int>"|| item[1] == "int") {
                     RspnFields += `public int ${item[2]} { get; set; }\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<System.DateTime>"|| item[1] == "DateTime") {
                     RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
                 }
             });
@@ -359,18 +359,21 @@
             if (variables.length == 1 && variables[0] != "") {
                 variables.forEach(Item => {
                     var item = Item.replace(/\s/g, "");
+                    var FunctionNameBeginLowerCase = item[0].toLowerCase() + item.slice(1);
+                    var PrimaryKeyNameUpper=TrimedArr?.[0]?.[2];
+                    var PrimaryKeyNameLower=ModelArr?.[0]?.[2];
                     var faccess=Item.toLowerCase().replace(/\s/g, "_");
                     FunctionContent += `        public static Create${item}Rspn Create${item}(Create${item}Rqst rqst)
         {
             try
             {
-                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "create_${faccess}");
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginRqst.AccessToken, "create_${faccess}");
                 if (rspn1.Response != "OK") return new Create${item}Rspn { Response = rspn1.Response };
-                var Info = new ${item}()
+                var ${FunctionNameBeginLowerCase} = new ${item}()
                 {
                     ${RqstToInfo}
                 };
-                var rspn = Create${item}(ref Info);
+                var rspn = Create${item}( ${FunctionNameBeginLowerCase});
                 return new Create${item}Rspn { Response = rspn };
             }
             catch (Exception ex)
@@ -379,23 +382,20 @@
             }
         }
 
-        private static string Create${item}(ref ${item} rqst)
+        private static string Create${item}( ${item} rqst)
         {
             try
             {
-                var rspn1 = Validate${item}(ref rqst);
+                var rspn1 = Validate${item}( rqst);
                 if (rspn1 != "OK") return rspn1;
 
                 using (var ctx = new Entity.${EName}())
                 {
-                    string GroupName = rqst.GroupName;
-                    int UserId = rqst.UserId;
-                    var grp = ctx.${TableName}.Where(c => c.group_name == GroupName && c.user_id == UserId).FirstOrDefault();
-                    if (grp != null) return "${Item} already exist";
-                    var Info = new Entity.${TableName}();
-                    ${InfoToDb}
-                    
-                    ctx.${TableName}.Add(Info);
+                    var ${FunctionNameBeginLowerCase} = new Entity.${TableName}()
+                    {
+                        ${InfoToDb}
+                    };
+                    ctx.${TableName}.Add(${FunctionNameBeginLowerCase});
                     ctx.SaveChanges();
                 }
                 return "OK";
@@ -407,11 +407,21 @@
         }
 
 
-        private static string Validate${item}(ref ${item} rqst)
+        private static string Validate${item}( ${item} rqst,bool Update=false)
         {
             try
             {
                 ${ValidateContent}
+                using (var ctx = new Entity.${EName}())
+                {
+                    var RowInfo = ctx.${TableName}.Where(c => c.group_name == rqst.GroupName && c.user_id == rqst.UserId && rqst.${PrimaryKeyNameUpper} != c.${PrimaryKeyNameLower}).FirstOrDefault();
+                    if (RowInfo != null) return "${Item} already exist";
+                    if (Update)
+                    {
+                        RowInfo = ctx.course_elective_group.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.account_id == rspn1.AccountId).FirstOrDefault();
+                        if (RowInfo == null) return  "Invalid Course Elective Group Info Details" ;
+                    }
+                }
                 return "OK";
             }
             catch (Exception ex)
@@ -421,7 +431,7 @@
         }`;
                     RqstContent += `    public class Create${item}Rqst
     {
-        public string LoginToken { get; set; } = "";
+        public CS4.Net.Model.LoginRqst LoginRqst=new CS4.Net.Model.LoginRqst();
         ${RqstFields}
     }
 `;
@@ -485,7 +495,7 @@
                     RqstFields += `public string ${item[2]} { get; set; } = "";\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
                     RqstFields += `public int ${item[2]} { get; set; } = 0;\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<System.DateTime>" || item[1] == "DateTime") {
                     RqstFields += `public DateTime ${item[2]} { get; set; }\n`;
                 }
             });
@@ -497,7 +507,7 @@
                     RspnFields += `public string ${item[2]} { get; set; } = "";\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
                     RspnFields += `public int ${item[2]} { get; set; } = 0;\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<System.DateTime>" || item[1] == "DateTime") {
                     RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
                 }
             });
@@ -518,8 +528,8 @@
         {
             try
             {
-                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read_${faccess}_List");
-                if (rspn1.Response != "OK") return new Read${item}ListRspn { Response = rspn1.Response };
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginRqst.AccessToken, "read_${faccess}_List");
+                if (rspn1.Response != "OK") return new Read${item}ListRspn { PageReportRspn = new PageReportRspn() {Response = rspn1.Response }};
 
                 var rspn = new Read${item}ListRspn();
                 using (var ctx = new Entity.${EName}())
@@ -539,43 +549,34 @@
                         docs = docs.Where(c => c.CreatedDate >= sDate && c.CreatedDate <= eDate);
                     }
 
-                    int TotalRows = 0;
-                    int RowsPerPage = 10;
-                    int startRow = 1;
-                    if (rqst.Sort == "") rqst.Sort = "${sort}";
-                    QueryableExtensions.OrderType order = QueryableExtensions.OrderType.Asc;
-                    if (rqst.Order.Contains("desc")) order = QueryableExtensions.OrderType.Desc;
-                    docs = docs.OrderByDynamic(rqst.Sort, order);
+                    if (rqst.PageReportRqst.SortField == "") rqst.PageReportRqst.SortField = "${sort}";
 
-                    TotalRows = docs.Count();
-                    rspn.PageCount = Entity4.GetPageCount(TotalRows, rqst.RowsPerPage);
-                    rspn.TotalRows = TotalRows;
+                    docs = docs.OrderByDynamic(rqst.PageReportRqst.SortField, rqst.PageReportRqst.SortOrder);
 
-                    RowsPerPage = rqst.RowsPerPage;
-                    startRow = rqst.RowsPerPage * (rqst.StartPage - 1);
-                    var result = docs.Skip(startRow).Take(RowsPerPage);
-                    rspn.${item}List = result.ToList();
-                    rspn.PageCount = Entity4.GetPageCount(TotalRows, rqst.RowsPerPage);
-                    rspn.TotalRows = TotalRows;
-
-                    rspn.Response = "OK";
+                    var reportRspn = Entity4.GetReport<${item}List>(docs, rqst.PageReportRqst.RowsPerPage, rqst.PageReportRqst.StartPage);
+                    rspn.PageReportRspn = reportRspn;
+                    rspn.${item}List = (List<${item}List>)reportRspn.ObjectData;
+                    rspn.PageReportRspn.Response = "OK";
                     return rspn;
                 }
             }
             catch (Exception ex)
             {
-                return new Read${item}ListRspn { Response = "catch:"+ex.Message };
+                return new Read${item}ListRspn { PageReportRspn = new PageReportRspn() {Response = "catch:"+ex.Message }};
             }
         }`;
-                    RqstContent += `    public class Read${item}ListRqst : ReportRqst
+                    RqstContent += `    public class Read${item}ListRqst 
     {
+        public CS4.Net.Model.PageReportRqst PageReportRqst { get; set; }
+        public CS4.Net.Model.LoginRqst LoginRqst = new CS4.Net.Model.LoginRqst();
         public string FromDate { get; set; } = "";
         public string ToDate { get; set; } = "";
         ${RqstFields}
     }
 `;
-                    RspnContent += `   public class Read${item}ListRspn:ReportRspn
+                    RspnContent += `   public class Read${item}ListRspn
     {
+        public CS4.Net.Model.PageReportRspn PageReportRspn { get; set; }
         public List<${item}List> ${item}List = new List<${item}List>();
     }
     public class ${item}List
@@ -608,12 +609,12 @@
 
             var DbtoClass = "";
             TrimedArr.forEach(function (item, index, arr) {
-                if (item[1] == "string") {
-                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]};\n`;
-                } else if (item[1] == "Nullable<int>" || item[1] == "int") {
-                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]}.GetValueOrDefault();\n`;
+                if (item[1] == "string"|| item[1] == "int"|| item[1] == "DateTime") {
+                    DbtoClass += `${item[2]} = RowInfo.${ModelArr[index][2]},\n`;
+                } else if (item[1] == "Nullable<int>" ) {
+                    DbtoClass += `${item[2]} = RowInfo.${ModelArr[index][2]}.GetValueOrDefault(),\n`;
                 } else if (item[1] == "Nullable<System.DateTime>") {
-                    DbtoClass += `Info.${item[2]} = dls.${ModelArr[index][2]}.GetValueOrDefault();\n`;
+                    DbtoClass += `${item[2]} = RowInfo.${ModelArr[index][2]}.GetValueOrDefault(),\n`;
                 }
             });
             console.log(DbtoClass);
@@ -633,7 +634,7 @@
                     RspnFields += `public string ${item[2]} { get; set; } = "";\n`;
                 } else if (item[1] == "Nullable<int>" || item[1] == "int") {
                     RspnFields += `public int ${item[2]} { get; set; } = 0;\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<System.DateTime>" || item[1] == "DateTime") {
                     RspnFields += `public DateTime ${item[2]} { get; set; }\n`;
                 }
             });
@@ -644,21 +645,26 @@
             if (variables.length == 1 && variables[0] != "") {
                 variables.forEach(Item => {
                     var item = Item.replace(/\s/g, "");
+                    var FunctionNameBeginLowerCase = item[0].toLowerCase() + item.slice(1);
+                    var PrimaryKeyNameUpper=TrimedArr?.[0]?.[2];
+                    var PrimaryKeyNameLower=ModelArr?.[0]?.[2];
                     var faccess=Item.toLowerCase().replace(/\s/g, "_");
                     FunctionContent += `        public static Read${item}Rspn Read${item}(Read${item}Rqst rqst)
         {
             try
             {
-                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read${faccess}");
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginRqst.AccessToken, "read${faccess}");
                 if (rspn1.Response != "OK") return new Read${item}Rspn { Response = rspn1.Response };
                 var rspn = new Read${item}Rspn();
                 using (var ctx = new Entity.${EName}())
                 {
-                    var dls = ctx.${TableName}.Where(c => c.group_guid == rqst.GroupGuid && c.account_id == rspn1.AccountId).FirstOrDefault();
-                    if (dls == null) return new Read${item}Rspn { Response = "Invalid ${Item} Details" };
-                    var Info = new ${item}();
+                    var RowInfo = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.account_id == rspn1.AccountId).FirstOrDefault();
+                    if (RowInfo == null) return new Read${item}Rspn { Response = "Invalid ${Item} Details" };
+                    var ${FunctionNameBeginLowerCase} = new ${item}()
+                    {
                     ${DbtoClass}
-                    rspn.${item} = Info;
+                    };
+                    rspn.${item} = ${FunctionNameBeginLowerCase};
                     rspn.Response = "OK";
                 }
                 return rspn;
@@ -670,7 +676,7 @@
         }`;
                     RqstContent += `    public class Read${item}Rqst
     {
-        public string LoginToken { get; set; } = "";
+        public CS4.Net.Model.LoginRqst LoginRqst = new CS4.Net.Model.LoginRqst();
         ${RqstFields}
     }
 `;
@@ -741,12 +747,14 @@
             if (variables.length == 1 && variables[0] != "") {
                 variables.forEach(Item => {
                     var item = Item.replace(/\s/g, "");
+                    var PrimaryKeyNameUpper=TrimedArr?.[0]?.[2];
+                    var PrimaryKeyNameLower=ModelArr?.[0]?.[2];
                     var faccess=Item.toLowerCase().replace(/\s/g, "_");
                     FunctionContent += `        public static Update${item}Rspn Update${item}(Update${item}Rqst rqst)
         {
             try
             {
-                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "update_${faccess}");
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginRqst.AccessToken, "update_${faccess}");
                 if (rspn1.Response != "OK") return new Update${item}Rspn { Response = rspn1.Response };
                 var Info = new ${item}()
                 {
@@ -765,21 +773,14 @@
         {
             try
             {
-                var rspn1 = Validate${item}(ref rqst);
+                var rspn1 = Validate${item}( rqst);
                 if (rspn1 != "OK") return rspn1;
 
                 using (var ctx = new Entity.${EName}())
                 {
                     string GroupName = rqst.GroupName;
                     int UserId = rqst.UserId;
-                    var dls = ctx.${TableName}.Where(c => c.group_guid == rqst.GroupGuid && c.user_id == UserId).FirstOrDefault();
-                    if (dls == null) return "Invalid ${Item} Details";
-                    if (dls.group_name != rqst.GroupName)
-                    {
-                        var vgrp = ctx.${TableName}.Where(c => c.group_name == rqst.GroupName && c.user_id == UserId).FirstOrDefault();
-                        if (vgrp != null) return "${Item} already exist";
-                    }
-
+                    var dls = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.user_id == UserId).FirstOrDefault();
                     ${InfoToDb}
                     ctx.SaveChanges();
                 }
@@ -793,7 +794,7 @@
 `;
                     RqstContent += `    public class Update${item}Rqst
     {
-        public string LoginToken { get; set; } = "";
+        public CS4.Net.Model.LoginRqst LoginRqst = new CS4.Net.Model.LoginRqst();
         ${RqstFields}
     }
 `;
@@ -871,7 +872,7 @@
         {
             try
             {
-                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginToken, "read_${faccess}_master");
+                var rspn1 = UserAccessIO.ValidateUserPolicy(rqst.LoginRqst.AccessToken, "read_${faccess}_master");
                 if (rspn1.Response != "OK") return new Read${item}MasterRspn { Response = rspn1.Response };
 
                 var rspn = new Read${item}MasterRspn();
@@ -897,7 +898,7 @@
         }`;
                     RqstContent += `    public class Read${item}MasterRqst
     {
-        public string LoginToken { get; set; } = "";
+        public CS4.Net.Model.LoginRqst LoginRqst = new CS4.Net.Model.LoginRqst();
         ${RqstFields}
     }
 `;
