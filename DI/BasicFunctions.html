@@ -322,9 +322,9 @@
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] == "string") {
                     ValidateContent += `if (rqst.${item[2]} == "") return "${ProcessedArr[index][2]} should not be blank";\n`;
-                } else if (item[1] == "Nullable<int>") {
+                } else if (item[1] == "Nullable<int>"||item[1] == "int") {
                     ValidateContent += `if (rqst.${item[2]} == 0) return "${ProcessedArr[index][2]} should not be blank";\n`;
-                } else if (item[1] == "Nullable<System.DateTime>") {
+                } else if (item[1] == "Nullable<System.DateTime>"||item[1] == "DateTime") {
                     ValidateContent += `if (rqst.${item[2]} < DateTime.Now) return "${ProcessedArr[index][2]} should not be in the past Date";\n`;
                 }
             });
