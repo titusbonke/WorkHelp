@@ -304,7 +304,7 @@
 
             var RqstToInfo = "";
             TrimedArr.forEach(function (item, index, arr) {
-                if (item[1] != "int") {
+                if (!(item[1] == "int" && index==0)) {
                     RqstToInfo += item[2] + " = rqst." + item[2] + ",\n";
                 }
             });
@@ -312,7 +312,7 @@
 
             var InfoToDb = "";
             TrimedArr.forEach(function (item, index, arr) {
-                if (item[1] != "int") {
+                if (!(item[1] == "int" && index==0)) {
                     InfoToDb += ModelArr[index][2] + " = rqst." + item[2] + ",\n";
                 }
             });
@@ -418,7 +418,7 @@
                     if (RowInfo != null) return "${Item} already exist";
                     if (Update)
                     {
-                        RowInfo = ctx.course_elective_group.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.account_id == rspn1.AccountId).FirstOrDefault();
+                        RowInfo = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.account_id == rspn1.AccountId).FirstOrDefault();
                         if (RowInfo == null) return  "Invalid Course Elective Group Info Details" ;
                     }
                 }
@@ -483,7 +483,7 @@
             TrimedArr.forEach(function (item, index, arr) {
                 if (item[1] == "string") {
                     Filters += `if (rqst.${item[2]} !="") docs = docs.Where(c => c.${item[2]}.Contains(rqst.${item[2]}));\n`;
-                } else if (item[1] == "Nullable<int>") {
+                } else if (item[1] == "Nullable<int>"||item[1] == "int") {
                     Filters += `if (rqst.${item[2]} != 0) docs = docs.Where(c => c.${item[2]} == rqst.${item[2]});\n`;
                 }
             });
@@ -515,7 +515,8 @@
 
             var sort= [];
             if (TrimedArr.length != 0) {
-                sort = TrimedArr.filter(a => a[1] == "string" || a[1] == "DateTime")[0][2];
+                sort = TrimedArr.filter(a => a[1] == "string" || a[1] == "DateTime")[0]?.[2];
+                if(sort==undefined) sort=TrimedArr[0][2];
                 console.log(sort);
             }
 
@@ -715,7 +716,7 @@
 
             var RqstToInfo = "";
             TrimedArr.forEach(function (item, index, arr) {
-                if (item[1] != "int") {
+                if (!(item[1] == "int" && index==0)) {
                 RqstToInfo += item[2] + " = rqst." + item[2] + ",\n";
                 }
             });
@@ -723,7 +724,7 @@
 
             var InfoToDb = "";
             TrimedArr.forEach(function (item, index, arr) {
-                if (item[1] != "int") {
+                if (!(item[1] == "int" && index==0)) {
                 InfoToDb += "dls." + ModelArr[index][2] + " = rqst." + item[2] + ";\n";
                 }
             });
