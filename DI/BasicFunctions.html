@@ -419,7 +419,7 @@
                     if (Update)
                     {
                         RowInfo = ctx.${TableName}.Where(c => c.${PrimaryKeyNameLower} == rqst.${PrimaryKeyNameUpper} && c.account_id == rspn1.AccountId).FirstOrDefault();
-                        if (RowInfo == null) return  "Invalid Course Elective Group Info Details" ;
+                        if (RowInfo == null) return  "Invalid ${Item} Details" ;
                     }
                 }
                 return "OK";
